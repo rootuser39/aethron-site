@@ -378,6 +378,9 @@ function setupAgentPanel() {
             }
           }, 500);
           break;
+        case '/help':
+          addMessage('Available commands: /about, /projects, /timeline, /services, /contact');
+          break;
         default:
           addMessage('Agent core offline (API not connected). Available commands: /about, /projects, /timeline, /services, /contact');
       }
@@ -471,7 +474,7 @@ function setupTimelineFeatures() {
     focusModeBtn.addEventListener('click', () => {
       focusModeActive = !focusModeActive;
       document.body.classList.toggle('focus-mode', focusModeActive);
-      focusModeBtn.textContent = focusModeActive ? 'Exit Focus Mode' : 'Focus Mode';
+      focusModeBtn.textContent = focusModeActive ? '◉ Exit Focus Mode' : '◉ Focus Mode';
       focusModeBtn.classList.toggle('active', focusModeActive);
       logSystem(focusModeActive ? 'Focus mode enabled' : 'Focus mode disabled');
     });

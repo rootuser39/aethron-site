@@ -1256,9 +1256,24 @@ body::after {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.agent-panel > * { position: relative; z-index: 1; }
-.agent-panel h3 { color: var(--highlight); font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; font-family: 'Courier New', Courier, monospace; }
-.agent-panel-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+.agent-panel > * { 
+  position: relative; 
+  z-index: 1; 
+}
+
+.agent-panel h3 { 
+  color: var(--highlight); 
+  font-size: 1.8rem; 
+  font-weight: 600; 
+  margin-bottom: 0.5rem; 
+  font-family: 'Courier New', Courier, monospace; 
+}
+
+.agent-panel-subtitle { 
+  color: var(--text-muted); 
+  font-size: 0.95rem; 
+  margin-bottom: 1.5rem; 
+}
 
 .agent-messages {
   background: rgba(0, 0, 0, 0.3);
