@@ -1,41 +1,57 @@
-# AETHRON Tech Portfolio
+# AI Infrastructure & Network Systems Engineer Portfolio
 
-A luxury cyber sci-fi themed static portfolio site built with pure HTML, CSS, and JavaScript. Features a minimalist yet sophisticated design with subtle animations and interactive elements.
+A professional portfolio site showcasing expertise in AI infrastructure, network engineering, and systems automation. Built with a minimalist cyber sci-fi aesthetic featuring green/black color scheme and subtle animations.
+
+## 👤 Professional Profile
+
+**AI Infrastructure & Network Systems Engineer**
+- CCNP (Enterprise + Automation) — In Progress
+- NVIDIA-Certified Professional: AI Infrastructure
+- MSc Electronic & Computer Technology (IoT), Dublin (2022–2025)
+
+### Core Expertise
+- **AI Infrastructure**: GPU cluster networking, RDMA/InfiniBand, AI workload optimization
+- **Networking**: BGP, OSPF, SD-WAN, VPNs, hybrid cloud networking (AWS)
+- **Automation**: Python, Terraform, Ansible, Infrastructure as Code
+- **Observability**: Prometheus, Grafana, metrics correlation, failure analysis
 
 ## 🎨 Design Philosophy
 
-**Luxury + Cyber + Sci-Fi** aesthetic with:
-- Dark, sophisticated color palette with cyan accents
-- Glassmorphism effects for depth and modernity
-- Subtle neon glow effects (tasteful, not overwhelming)
+**Minimalist Cyber Sci-Fi** aesthetic with:
+- Dark green/black color palette (stealth tech)
+- Glassmorphism effects for depth
+- Subtle neon green glow effects
 - Clean typography using system font stacks
-- Minimalist layout - recruiter-safe and professional
+- Professional, recruiter-safe presentation
 
 ## ✨ Features
 
+### Sections
+- **Hero**: Professional title, subtitle with credentials, dual CTAs
+- **Experience**: Timeline view of Wipro role (2021-2022) and NDA consulting (2022-present)
+- **Projects**: 6 infrastructure-focused projects with Problem → Solution → Outcome format
+- **Education**: MSc IoT + BSc Network & Technology, including Arcane Guard capstone
+- **Certifications**: CCNP Enterprise/ENAUTO, NVIDIA AI Infrastructure
+- **Skills**: Capability-grouped technical skills
+- **How I Work**: Professional philosophy on infrastructure as a system
+- **Contact**: GitHub and LinkedIn links
+
 ### Visual Elements
-- **Glass Navbar**: Fixed navigation with blur effect, smooth scrolling, and active section highlighting
+- **Glass Navbar**: Fixed navigation with blur effect, smooth scrolling
 - **Hero Section**: 
   - Animated gradient background
-  - Subtle vignette overlay
+  - Canvas-based particle field (low density, optimized)
   - Faint grid overlay for sci-fi aesthetic
-  - Canvas-based particle field with low density, slow drift
-- **Section Animations**: Smooth reveal animations using IntersectionObserver
+  - Dual CTAs (View Projects, Contact)
+- **Section Animations**: Smooth reveal using IntersectionObserver
+- **Timeline**: Visual timeline with markers for work experience
 - **Project Cards**: Glassmorphism with neon edge glow on hover
-- **Improved Typography**: Modern system font stack with optimized spacing
-
-### Interactive Features
-- Smooth scrolling navigation with active link highlighting
-- Particle field animation (40 particles, optimized with requestAnimationFrame)
-- Section reveal animations on scroll
-- Hover effects on cards and links
-- Responsive design for all screen sizes
+- **Responsive**: Mobile-first design, works on all screen sizes
 
 ### Performance & Accessibility
-- **Low particle count** (40) for optimal performance
-- **Optimized animation loop** with requestAnimationFrame
-- **Prefers-reduced-motion support**: Automatically disables animations and particles for users who prefer reduced motion
-- **Performance optimization**: Particle animation pauses when tab is not visible
+- **Optimized animations** with requestAnimationFrame
+- **Prefers-reduced-motion support**: Automatically disables animations for accessibility
+- **Performance optimization**: Animations pause when tab is not visible
 - Clean, semantic HTML5 markup
 - No external dependencies or frameworks
 
@@ -43,8 +59,8 @@ A luxury cyber sci-fi themed static portfolio site built with pure HTML, CSS, an
 
 ```
 aethron-site/
-├── index.html      # Main HTML structure with semantic markup
-├── styles.css      # All styling with CSS custom properties
+├── index.html      # Main HTML with semantic markup and professional content
+├── styles.css      # Green/black sci-fi styling with CSS custom properties
 ├── script.js       # Interactive features (particles, scrolling, animations)
 └── README.md       # This file
 ```
@@ -62,18 +78,11 @@ python -m http.server 8000
 # Then visit http://localhost:8000
 ```
 
-## 🎯 Sections
-
-1. **Hero**: AETHRON branding with animated background and particle field
-2. **About**: Brief introduction and description
-3. **Projects**: Showcase of three featured projects with glassmorphism cards
-4. **Contact**: Links to GitHub and LinkedIn profiles
-
 ## 💻 Technologies
 
 - **HTML5**: Semantic markup, accessibility features
 - **CSS3**: 
-  - CSS Custom Properties (variables)
+  - CSS Custom Properties (green/black color scheme)
   - Flexbox and Grid layouts
   - Glassmorphism effects with backdrop-filter
   - Advanced animations and transitions
@@ -90,31 +99,28 @@ python -m http.server 8000
 Edit CSS custom properties in `styles.css`:
 ```css
 :root {
-  --accent-cyan: #00d4ff;
-  --accent-purple: #b366ff;
-  --accent-pink: #ff6eb4;
+  --bg-primary: #060A07;
+  --accent-primary: #00FF7A;
+  --accent-secondary: #34D399;
   /* ... */
 }
 ```
 
-### Particles
-Adjust particle settings in `script.js`:
-```javascript
-const particleConfig = {
-  count: 40,              // Number of particles
-  maxSpeed: 0.3,          // Movement speed
-  connectionDistance: 150, // Connection line distance
-  particleSize: 2         // Particle size in pixels
-};
-```
+### Content
+Update sections in `index.html`:
+- Experience timeline items
+- Project cards with Problem/Solution/Outcome
+- Education and certifications
+- Skills categories
+- Contact links
 
 ## ♿ Accessibility
 
 - Respects `prefers-reduced-motion` system setting
 - Semantic HTML structure
-- Proper ARIA attributes where needed
+- Proper heading hierarchy
 - Keyboard navigation support
-- High contrast ratios for text readability
+- High contrast green/black color scheme for readability
 
 ## 📱 Browser Support
 
@@ -132,4 +138,4 @@ Requires support for:
 
 ## 📄 License
 
-© 2026 AETHRON. All rights reserved.
+© 2026. All rights reserved.
