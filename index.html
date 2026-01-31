@@ -14,26 +14,38 @@
             <a href="#hero" class="nav-logo">AETHRON</a>
             <ul class="nav-links">
                 <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#education">Education</a></li>
+                <li><a href="#certifications">Certifications</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a href="timeline.html">Timeline</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section with Particles and Grid -->
     <section class="hero" id="hero">
-        <canvas id="particle-canvas"></canvas>
         <div class="grid-overlay"></div>
         <div class="hero-content">
-            <h1>AI Infrastructure & Network Systems Engineer</h1>
+            <p class="hero-label">AETHRON</p>
+            <h1>[YOUR FULL NAME]</h1>
+            <p class="hero-title">AI Infrastructure & Network Systems Engineer</p>
             <p class="tagline">CCNP (Enterprise + Automation) · NVIDIA AI Infrastructure — Building resilient, observable, cost-efficient AI-ready networks</p>
             <div class="hero-cta">
                 <a href="#projects" class="cta-button cta-primary">View Projects</a>
                 <a href="#contact" class="cta-button cta-secondary">Contact</a>
             </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About</h2>
+        <div class="about-content">
+            <p>I specialize in building AI-ready network infrastructure that's resilient, observable, and cost-efficient. My work focuses on GPU cluster networking, traffic pattern analysis, and hybrid cloud connectivity. I approach infrastructure as an interdependent system where compute, network, security, and cost are deeply connected. I build observability into everything I design because you can't optimize what you can't measure.</p>
         </div>
     </section>
 
@@ -83,67 +95,67 @@
         <h2>Projects</h2>
         <div class="projects-grid">
             <article class="project-card">
-                <h3>AI Traffic Simulation Framework</h3>
+                <h3>AI-Aware Network Traffic Optimization</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> AI training clusters need predictable network behavior; congestion causes cost spikes.</span>
                 </div>
                 <p class="project-solution"><strong>What I Built:</strong> Traffic generator simulating GPU-to-GPU communication patterns (all-reduce, ring, tree topologies). Synthetic workload profiler that stress-tests switches under AI traffic.</p>
-                <p class="project-outcome"><strong>Outcome:</strong> Identified bottlenecks pre-deployment; reduced cluster provisioning cost by 18% through right-sizing.</p>
+                <p class="project-outcome"><strong>Outcome:</strong> Identified bottlenecks pre-deployment; right-sizing decisions based on realistic traffic patterns.</p>
                 <p class="project-tech"><strong>Stack:</strong> Python, Scapy, Pandas, Linux tc/netem, Prometheus</p>
                 <a href="https://github.com/rootuser39" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
             </article>
             
             <article class="project-card">
-                <h3>GPU Observability Pipeline</h3>
+                <h3>GPU & Infrastructure Observability Correlator</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> GPU throttling traced to network congestion, not hardware — no unified view.</span>
                 </div>
                 <p class="project-solution"><strong>What I Built:</strong> Metrics collector pulling GPU utilization (nvidia-smi), network stats (tc, ethtool), workload logs. Correlation engine detecting causal patterns (e.g., packet loss → training stall).</p>
-                <p class="project-outcome"><strong>Outcome:</strong> Cut MTTR by 40%; operators see causal relationships, not isolated metrics.</p>
+                <p class="project-outcome"><strong>Outcome:</strong> Operators see causal relationships between infrastructure layers, not isolated metrics.</p>
                 <p class="project-tech"><strong>Stack:</strong> Python, DCGM, Grafana, InfluxDB, Telegraf</p>
                 <a href="https://github.com/rootuser39" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
             </article>
             
             <article class="project-card">
-                <h3>Edge Inference Resilience Pipeline</h3>
+                <h3>Edge Inference Under Constrained Networks</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> Edge devices run inference under unstable connectivity; failures go undetected.</span>
                 </div>
                 <p class="project-solution"><strong>What I Built:</strong> Inference wrapper with request queue, exponential backoff, local caching. Health monitor tracking latency/error rate; automatic fallback to lighter models.</p>
-                <p class="project-outcome"><strong>Outcome:</strong> 99.2% uptime on cellular networks; graceful degradation instead of hard failures.</p>
+                <p class="project-outcome"><strong>Outcome:</strong> Graceful degradation instead of hard failures on cellular networks.</p>
                 <p class="project-tech"><strong>Stack:</strong> Python, Redis, ONNX Runtime, FastAPI, Docker</p>
                 <a href="https://github.com/rootuser39" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
             </article>
             
             <article class="project-card">
-                <h3>Arcane Guard — AI Security for IoT</h3>
+                <h3>Traffic-Aware Security Detection for AI Workloads</h3>
                 <div class="project-meta">
-                    <span class="project-problem"><strong>Problem:</strong> IoT networks face polymorphic threats; signature-based detection fails.</span>
+                    <span class="project-problem"><strong>Problem:</strong> AI workloads generate unique traffic patterns; traditional security tools produce false positives.</span>
                 </div>
-                <p class="project-solution"><strong>What I Built:</strong> ML/DL threat detection system trained on network flow features (packet size, inter-arrival time, protocol). Real-time pipeline with feature extraction, model inference, alert generation.</p>
-                <p class="project-outcome"><strong>Outcome:</strong> 94% accuracy on unseen attacks; 60% reduction in false positives vs rule-based systems. Graduate capstone project.</p>
+                <p class="project-solution"><strong>What I Built:</strong> ML-based threat detection trained on AI workload traffic features. Pattern classifier distinguishing legitimate GPU communication from anomalies.</p>
+                <p class="project-outcome"><strong>Outcome:</strong> Reduced false positives while maintaining detection accuracy for AI-specific threats.</p>
                 <p class="project-tech"><strong>Stack:</strong> Python, TensorFlow, Scikit-learn, Wireshark, Kafka</p>
                 <a href="https://github.com/rootuser39" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
             </article>
             
             <article class="project-card">
-                <h3>Failure Injection Testing Suite</h3>
+                <h3>Failure Injection Lab for Faster RCA</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> Production failures take hours to diagnose; no pre-prod chaos engineering.</span>
                 </div>
                 <p class="project-solution"><strong>What I Built:</strong> Fault injection framework for network (packet loss, latency, partition), compute (CPU throttle, OOM), storage (I/O delay). Automated test scenarios with result capture.</p>
-                <p class="project-outcome"><strong>Outcome:</strong> Found 3 critical failure modes before production; RCA time reduced by 50%.</p>
+                <p class="project-outcome"><strong>Outcome:</strong> Found critical failure modes before production; faster root cause analysis through systematic testing.</p>
                 <p class="project-tech"><strong>Stack:</strong> Python, Linux tc/iptables, stress-ng, Ansible</p>
                 <a href="https://github.com/rootuser39" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
             </article>
             
             <article class="project-card">
-                <h3>Cost Driver Modeling Tool</h3>
+                <h3>Cost Driver Modeling for AI Infrastructure</h3>
                 <div class="project-meta">
-                    <span class="project-problem"><strong>Problem:</strong> Infrastructure costs grow opaquely; teams lack visibility into what drives spend.</span>
+                    <span class="project-problem"><strong>Problem:</strong> AI infrastructure costs grow opaquely; teams lack visibility into what drives spend.</span>
                 </div>
                 <p class="project-solution"><strong>What I Built:</strong> Data aggregator pulling cloud billing APIs, tagging compute/network/storage by workload. Interactive dashboard showing cost breakdown, trend analysis, optimization recommendations.</p>
-                <p class="project-outcome"><strong>Outcome:</strong> Identified $12k/month in idle resources; enabled data-driven rightsizing decisions.</p>
+                <p class="project-outcome"><strong>Outcome:</strong> Enabled data-driven rightsizing decisions through transparent cost attribution.</p>
                 <p class="project-tech"><strong>Stack:</strong> Python, AWS Cost Explorer API, Plotly Dash, PostgreSQL</p>
                 <a href="https://github.com/rootuser39" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
             </article>
@@ -158,12 +170,16 @@
                 <h3>MSc/Graduate Diploma — Electronic & Computer Technology (IoT)</h3>
                 <span class="education-period">Dublin, Ireland · 2022–2025</span>
                 <p class="education-capstone"><strong>Capstone:</strong> Arcane Guard — AI-Driven Security for IoT Networks</p>
-                <p class="education-description">ML/DL threat detection system for IoT networks. Real-time pipeline with feature extraction, model inference, and alert generation. Achieved 94% accuracy on unseen attacks with 60% reduction in false positives vs rule-based systems.</p>
+                <ul class="education-bullets">
+                    <li>ML/DL threat detection for IoT network traffic</li>
+                    <li>Real-time pipeline (Kafka/Spark/Docker)</li>
+                    <li>Focus on scalability and false-positive reduction</li>
+                </ul>
             </div>
             <div class="education-item">
                 <h3>Bachelor of Science — Network & Technology</h3>
                 <span class="education-period">Completed</span>
-                <p class="education-description">Foundation in networking protocols, system administration, and infrastructure management.</p>
+                <p class="education-description">Foundation in networking protocols, Linux, distributed systems, and security.</p>
             </div>
         </div>
     </section>
@@ -173,20 +189,28 @@
         <h2>Certifications</h2>
         <div class="cert-list">
             <div class="cert-item">
-                <span class="cert-badge">🎓</span>
+                <span class="cert-badge">📚</span>
                 <div class="cert-details">
-                    <h3>CCNP Enterprise + ENAUTO</h3>
+                    <h3>Cisco CCNP Enterprise + ENAUTO</h3>
                     <p>In Progress — Advanced enterprise networking and automation</p>
                 </div>
             </div>
             <div class="cert-item">
-                <span class="cert-badge">🎓</span>
+                <span class="cert-badge">✓</span>
                 <div class="cert-details">
                     <h3>NVIDIA-Certified Professional: AI Infrastructure</h3>
-                    <p>Certified — AI infrastructure design, deployment, and optimization</p>
+                    <p>Earned — AI infrastructure design, deployment, and optimization</p>
+                </div>
+            </div>
+            <div class="cert-item cert-next">
+                <span class="cert-badge">→</span>
+                <div class="cert-details">
+                    <h3>Next: PNPT · DevSecOps · CCT</h3>
+                    <p>Planned certification track</p>
                 </div>
             </div>
         </div>
+        <p class="cert-philosophy">I use certifications as project constraints: each track ships a proof-of-work lab and a write-up.</p>
     </section>
 
     <!-- Skills Section -->
@@ -196,10 +220,9 @@
             <div class="skill-category">
                 <h3>AI Infrastructure</h3>
                 <ul>
-                    <li>GPU cluster networking</li>
-                    <li>RDMA/InfiniBand</li>
-                    <li>AI workload optimization</li>
+                    <li>GPU-aware networking</li>
                     <li>Observability pipelines</li>
+                    <li>Inference pipelines</li>
                     <li>Traffic pattern analysis</li>
                 </ul>
             </div>
@@ -207,40 +230,25 @@
                 <h3>Networking</h3>
                 <ul>
                     <li>BGP, OSPF, SD-WAN</li>
-                    <li>VPNs, IPSec, firewalls</li>
-                    <li>L2/L3 protocols</li>
-                    <li>Network security</li>
-                    <li>Traffic engineering</li>
+                    <li>VPNs, IPSec</li>
+                    <li>QoS, segmentation</li>
                 </ul>
             </div>
             <div class="skill-category">
                 <h3>Automation</h3>
                 <ul>
-                    <li>Python, Bash, PowerShell</li>
-                    <li>Terraform, Ansible</li>
-                    <li>CI/CD pipelines</li>
-                    <li>Config management</li>
-                    <li>Infrastructure as Code</li>
+                    <li>Python, Terraform</li>
+                    <li>CI/CD style workflows</li>
                 </ul>
             </div>
             <div class="skill-category">
-                <h3>Cloud & Platforms</h3>
+                <h3>Cloud</h3>
                 <ul>
-                    <li>AWS (VPC, Transit Gateway)</li>
-                    <li>Hybrid cloud networking</li>
-                    <li>Docker, Kubernetes</li>
-                    <li>Linux system admin</li>
-                    <li>Monitoring (Prometheus, Grafana)</li>
+                    <li>AWS VPC, hybrid connectivity</li>
+                    <li>Security controls</li>
+                    <li>Logging/monitoring</li>
                 </ul>
             </div>
-        </div>
-    </section>
-
-    <!-- How I Work Section -->
-    <section id="how-i-work">
-        <h2>How I Work</h2>
-        <div class="work-philosophy">
-            <p>I treat infrastructure as a system: compute, network, security, and cost are interdependent, not siloed. When a GPU throttles, I don't just check the hardware—I trace the network path, inspect queue depths, correlate with workload patterns. I build observability into everything I design because you can't optimize what you can't measure. I use automation not to replace judgment, but to free up time for root cause analysis and strategic thinking. Reliability isn't just about uptime—it's about graceful degradation, fast recovery, and economics. I focus on outcomes: reduced MTTR, cost efficiency, predictable performance. No fluff, no buzzwords, just systems that work.</p>
         </div>
     </section>
 
@@ -250,6 +258,8 @@
         <div class="contact-links">
             <a href="https://github.com/rootuser39" class="contact-link" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="mailto:your.email@example.com" class="contact-link">Email</a>
+            <a href="#" class="contact-link" download>Download Resume</a>
         </div>
     </section>
 
@@ -257,6 +267,9 @@
     <footer>
         <p>&copy; 2026. All rights reserved.</p>
     </footer>
+
+    <!-- Canvas for site-wide background -->
+    <canvas id="particle-canvas"></canvas>
 
     <!-- JavaScript -->
     <script src="script.js"></script>

@@ -1,6 +1,6 @@
 /* ============================================
    AETHRON - Interactive Features
-   Site-wide canvas, mouse parallax, smooth scrolling
+   Particles, smooth scrolling, and animations
    ============================================ */
 
 // Check if user prefers reduced motion
@@ -29,20 +29,16 @@ window.addEventListener('scroll', () => {
 // Smooth scroll to sections when clicking nav links
 navLinks.forEach(link => {
   link.addEventListener('click', (e) => {
+    e.preventDefault();
     const targetId = link.getAttribute('href');
+    const targetSection = document.querySelector(targetId);
     
-    // Only handle internal links (starting with #)
-    if (targetId && targetId.startsWith('#')) {
-      e.preventDefault();
-      const targetSection = document.querySelector(targetId);
-      
-      if (targetSection) {
-        const offsetTop = targetSection.offsetTop - 70; // Account for navbar height
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-        });
-      }
+    if (targetSection) {
+      const offsetTop = targetSection.offsetTop - 60; // Account for navbar height
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
     }
   });
 });
@@ -62,41 +58,30 @@ function updateActiveNavLink() {
 
   navLinks.forEach(link => {
     link.classList.remove('active');
-    const href = link.getAttribute('href');
-    if (href && href.startsWith('#')) {
-      const linkId = href.substring(1); // Remove #
-      if (linkId === currentSection) {
-        link.classList.add('active');
-      }
+    const href = link.getAttribute('href').substring(1); // Remove #
+    if (href === currentSection) {
+      link.classList.add('active');
     }
   });
 }
 
 // ============================================
-// SITE-WIDE CANVAS BACKGROUND - Particles with mouse parallax
+// PARTICLE FIELD - Canvas-based background animation
 // ============================================
 
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 
-// Mouse position for parallax (with lerping for smooth motion)
-let mouse = { x: 0, y: 0 };
-let targetMouse = { x: 0, y: 0 };
-let lastMouseUpdate = 0;
-const mouseLerpSpeed = 0.05;
-
 // Particle system configuration
 const particleConfig = {
-  count: prefersReducedMotion ? 0 : 60, // 50-80 particles as spec'd
-  maxSpeed: 0.3,
-  connectionDistance: 120,
-  particleSize: 1.5,
-  parallaxStrength: 0.015 // Subtle parallax effect
+  count: prefersReducedMotion ? 0 : 12, // Extremely subtle - 70% reduction from 40
+  maxSpeed: 0.3, // Slow drift
+  connectionDistance: 150,
+  particleSize: 2
 };
 
 let particles = [];
 let animationId;
-let isAnimating = false;
 
 // Resize canvas to match window size
 function resizeCanvas() {
@@ -104,76 +89,29 @@ function resizeCanvas() {
   canvas.height = window.innerHeight;
 }
 
-// Debounced resize handler for performance
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    resizeCanvas();
-    if (!prefersReducedMotion && particleConfig.count > 0) {
-      initParticles();
-    }
-  }, 150);
-});
-
-// Throttled mouse move handler for performance
-window.addEventListener('mousemove', (e) => {
-  const now = Date.now();
-  if (now - lastMouseUpdate > 16) { // ~60fps throttle
-    targetMouse.x = e.clientX;
-    targetMouse.y = e.clientY;
-    lastMouseUpdate = now;
-  }
-});
-
-// Mobile: device orientation for subtle parallax
-if (window.DeviceOrientationEvent && /Mobi|Android/i.test(navigator.userAgent)) {
-  window.addEventListener('deviceorientation', (e) => {
-    if (e.gamma !== null && e.beta !== null) {
-      // Map device tilt to mouse position (subtle effect)
-      targetMouse.x = (e.gamma / 90) * canvas.width * 0.5 + canvas.width * 0.5;
-      targetMouse.y = (e.beta / 90) * canvas.height * 0.5 + canvas.height * 0.5;
-    }
-  });
-}
-
-// Particle class with parallax influence
+// Particle class
 class Particle {
   constructor() {
-    this.reset();
-  }
-
-  reset() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.baseX = this.x;
-    this.baseY = this.y;
     this.vx = (Math.random() - 0.5) * particleConfig.maxSpeed;
     this.vy = (Math.random() - 0.5) * particleConfig.maxSpeed;
     this.size = particleConfig.particleSize;
   }
 
   update() {
-    // Update base position with drift
-    this.baseX += this.vx;
-    this.baseY += this.vy;
+    this.x += this.vx;
+    this.y += this.vy;
 
     // Wrap around edges
-    if (this.baseX < 0) this.baseX = canvas.width;
-    if (this.baseX > canvas.width) this.baseX = 0;
-    if (this.baseY < 0) this.baseY = canvas.height;
-    if (this.baseY > canvas.height) this.baseY = 0;
-
-    // Apply parallax based on mouse position
-    const dx = mouse.x - canvas.width / 2;
-    const dy = mouse.y - canvas.height / 2;
-    
-    this.x = this.baseX + dx * particleConfig.parallaxStrength;
-    this.y = this.baseY + dy * particleConfig.parallaxStrength;
+    if (this.x < 0) this.x = canvas.width;
+    if (this.x > canvas.width) this.x = 0;
+    if (this.y < 0) this.y = canvas.height;
+    if (this.y > canvas.height) this.y = 0;
   }
 
   draw() {
-    ctx.fillStyle = 'rgba(52, 211, 153, 0.15)'; // Subtle green
+    ctx.fillStyle = 'rgba(0, 255, 122, 0.2)'; // Very subtle green
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
@@ -197,9 +135,9 @@ function drawConnections() {
       const distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < particleConfig.connectionDistance) {
-        const opacity = (1 - distance / particleConfig.connectionDistance) * 0.1; // Very subtle
-        ctx.strokeStyle = `rgba(52, 211, 153, ${opacity})`;
-        ctx.lineWidth = 0.5;
+        const opacity = (1 - distance / particleConfig.connectionDistance) * 0.15; // Very subtle connections
+        ctx.strokeStyle = `rgba(0, 255, 122, ${opacity})`;
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
@@ -211,10 +149,6 @@ function drawConnections() {
 
 // Animation loop - optimized with requestAnimationFrame
 function animateParticles() {
-  // Lerp mouse position for smooth motion
-  mouse.x += (targetMouse.x - mouse.x) * mouseLerpSpeed;
-  mouse.y += (targetMouse.y - mouse.y) * mouseLerpSpeed;
-
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -228,36 +162,20 @@ function animateParticles() {
   drawConnections();
 
   // Continue animation loop
-  if (isAnimating) {
-    animationId = requestAnimationFrame(animateParticles);
-  }
+  animationId = requestAnimationFrame(animateParticles);
 }
 
-// Render single static frame for reduced motion
-function renderStaticFrame() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(particle => {
-    particle.draw();
-  });
-  drawConnections();
-}
-
-// Initialize particle system
-if (particleConfig.count > 0) {
+// Initialize particle system (only if motion is not reduced)
+if (!prefersReducedMotion && particleConfig.count > 0) {
   resizeCanvas();
   initParticles();
-  
-  if (prefersReducedMotion) {
-    // Render one static frame
-    renderStaticFrame();
-  } else {
-    // Start animation
-    isAnimating = true;
-    // Initialize mouse to center
-    mouse.x = targetMouse.x = canvas.width / 2;
-    mouse.y = targetMouse.y = canvas.height / 2;
-    animateParticles();
-  }
+  animateParticles();
+
+  // Re-initialize on window resize
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    initParticles();
+  });
 }
 
 // ============================================
@@ -275,6 +193,8 @@ if (!prefersReducedMotion) {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        // Optional: stop observing after animation
+        // sectionObserver.unobserve(entry.target);
       }
     });
   }, observerOptions);
@@ -298,13 +218,11 @@ if (!prefersReducedMotion) {
 // Pause particle animation when tab is not visible (performance optimization)
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
-    isAnimating = false;
     if (animationId) {
       cancelAnimationFrame(animationId);
     }
   } else {
     if (!prefersReducedMotion && particleConfig.count > 0) {
-      isAnimating = true;
       animateParticles();
     }
   }
@@ -320,5 +238,4 @@ window.addEventListener('load', () => {
 });
 
 console.log('🚀 AETHRON site initialized');
-console.log(`Particles: ${prefersReducedMotion ? 'Static frame (reduced motion)' : particleConfig.count}`);
-console.log(`Mouse parallax: ${prefersReducedMotion ? 'Disabled' : 'Enabled'}`);
+console.log(`Particles: ${prefersReducedMotion ? 'Disabled (reduced motion)' : particleConfig.count}`);

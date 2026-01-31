@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detailed timeline of professional experience, education, and certifications">
+    <title>Timeline - AETHRON</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Timeline-specific styles */
+        .timeline-page {
+            min-height: 100vh;
+            padding-top: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline-header h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(52, 211, 153, 0.25);
+        }
+
+        .timeline-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .timeline-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem auto;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+
+        .control-button {
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 0.05rem;
+        }
+
+        .control-button:hover,
+        .control-button.active {
+            background: rgba(52, 211, 153, 0.1);
+            border-color: var(--accent-highlight);
+            color: var(--accent-highlight);
+            box-shadow: 0 0 12px rgba(0, 255, 122, 0.3);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 2px solid var(--glass-border);
+            border-radius: 4px;
+            transition: var(--transition-smooth);
+        }
+
+        .back-link:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .year-section {
+            margin-bottom: 4rem;
+        }
+
+        .year-header {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-secondary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .year-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .month-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .month-item:hover {
+            border-color: rgba(52, 211, 153, 0.3);
+        }
+
+        .month-header {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: var(--transition-smooth);
+        }
+
+        .month-header:hover {
+            background: rgba(52, 211, 153, 0.05);
+        }
+
+        .month-title {
+            font-size: 1.3rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .month-toggle {
+            font-size: 1.5rem;
+            color: var(--accent-secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .month-item.open .month-toggle {
+            transform: rotate(180deg);
+        }
+
+        .month-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .month-item.open .month-content {
+            max-height: 2000px;
+        }
+
+        .month-details {
+            padding: 0 2rem 2rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section h4 {
+            color: var(--accent-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-section li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+
+        .detail-section li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        .detail-section.compact-hidden {
+            display: none;
+        }
+
+        .evidence-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+        }
+
+        .evidence-link {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--accent-primary);
+            text-decoration: none;
+            border: 1px solid var(--accent-primary);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .evidence-link:hover {
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--accent-highlight);
+        }
+
+        @media (max-width: 768px) {
+            .year-header {
+                font-size: 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .year-badge {
+                font-size: 1.2rem;
+            }
+
+            .month-header {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .month-title {
+                font-size: 1.1rem;
+            }
+
+            .month-details {
+                padding: 0 1.5rem 1.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Glass Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html#hero" class="nav-logo">AETHRON</a>
+            <ul class="nav-links">
+                <li><a href="index.html#hero">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#experience">Experience</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#education">Education</a></li>
+                <li><a href="index.html#certifications">Certifications</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="timeline.html" class="active">Timeline</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="timeline-page">
+        <div class="timeline-header">
+            <h1>Timeline</h1>
+            <p>Detailed chronological view of work, education, projects, and certifications</p>
+        </div>
+
+        <div class="timeline-controls">
+            <a href="index.html" class="back-link">← Back to Portfolio</a>
+            <button class="control-button" id="expand-all">Expand All</button>
+            <button class="control-button" id="collapse-all">Collapse All</button>
+            <button class="control-button" id="toggle-view">Compact View</button>
+        </div>
+
+        <div class="timeline-container" id="timeline">
+            <!-- 2026 -->
+            <div class="year-section">
+                <h2 class="year-header"><span class="year-badge">2026</span> Current & Planned</h2>
+                
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Q1 2026 - CCNP Track Completion</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Completing CCNP Enterprise and ENAUTO certifications with practical lab work</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>CCNP Enterprise certification</li>
+                                    <li>CCNP ENAUTO (automation track)</li>
+                                    <li>Lab environment documentation</li>
+                                    <li>Proof-of-work write-up</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Evidence</h4>
+                                <div class="evidence-links">
+                                    <a href="#" class="evidence-link">Lab Repository (Placeholder)</a>
+                                    <a href="#" class="evidence-link">Write-up (Placeholder)</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Q2 2026 - Next Cert Track: PNPT/DevSecOps/CCT</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Expanding into security-focused certifications with hands-on penetration testing and DevSecOps practices</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Planned Work</h4>
+                                <ul>
+                                    <li>PNPT (Practical Network Penetration Tester) preparation</li>
+                                    <li>DevSecOps fundamentals and tooling</li>
+                                    <li>CCT (Certified CyberDefender Technician) track</li>
+                                    <li>Build security-focused lab infrastructure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2025 -->
+            <div class="year-section">
+                <h2 class="year-header"><span class="year-badge">2025</span> Education & Consulting</h2>
+                
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Jan-Mar 2025 - Graduate Capstone Project</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Completed Arcane Guard capstone project for MSc Electronic & Computer Technology (IoT)</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>ML/DL-based threat detection system for IoT networks</li>
+                                    <li>Real-time processing pipeline (Kafka/Spark)</li>
+                                    <li>94% accuracy on unseen attacks</li>
+                                    <li>60% reduction in false positives vs rule-based systems</li>
+                                    <li>Complete documentation and presentation</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Evidence</h4>
+                                <div class="evidence-links">
+                                    <a href="https://github.com/rootuser39" class="evidence-link">GitHub Repository</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Apr-Jun 2025 - NVIDIA AI Infrastructure Certification</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Earned NVIDIA-Certified Professional: AI Infrastructure certification</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Focus Areas</h4>
+                                <ul>
+                                    <li>GPU cluster architecture and networking</li>
+                                    <li>AI workload optimization</li>
+                                    <li>Infrastructure design for AI/ML at scale</li>
+                                    <li>Observability and troubleshooting</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Jul-Dec 2025 - MSc Program Completion</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Completed MSc/Graduate Diploma in Electronic & Computer Technology (IoT) from Dublin</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Key Modules</h4>
+                                <ul>
+                                    <li>Advanced IoT architectures</li>
+                                    <li>Machine learning for embedded systems</li>
+                                    <li>Network security and cryptography</li>
+                                    <li>Real-time data processing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2024 -->
+            <div class="year-section">
+                <h2 class="year-header"><span class="year-badge">2024</span> Consulting & Projects</h2>
+                
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Jan-Apr 2024 - Cost Driver Modeling Project</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Client needed transparency into AI infrastructure cost drivers for data-driven optimization</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>Data aggregator pulling cloud billing APIs</li>
+                                    <li>Cost tagging by workload (compute/network/storage)</li>
+                                    <li>Interactive dashboard with trend analysis</li>
+                                    <li>Optimization recommendations</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Tech Stack</h4>
+                                <p>Python, AWS Cost Explorer API, Plotly Dash, PostgreSQL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">May-Aug 2024 - Failure Injection Lab</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Production incidents were taking hours to diagnose; needed pre-prod chaos engineering</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>Fault injection framework (network, compute, storage)</li>
+                                    <li>Automated test scenarios with result capture</li>
+                                    <li>Found critical failure modes before production</li>
+                                    <li>Documentation and runbooks</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Tech Stack</h4>
+                                <p>Python, Linux tc/iptables, stress-ng, Ansible</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Sep-Dec 2024 - Traffic-Aware Security Detection</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>AI workloads generated unique traffic patterns causing false positives in traditional security tools</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>ML-based threat detection trained on AI workload traffic</li>
+                                    <li>Pattern classifier distinguishing legitimate GPU communication from anomalies</li>
+                                    <li>Reduced false positives while maintaining detection accuracy</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Tech Stack</h4>
+                                <p>Python, TensorFlow, Scikit-learn, Wireshark, Kafka</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2023 -->
+            <div class="year-section">
+                <h2 class="year-header"><span class="year-badge">2023</span> Consulting & Education</h2>
+                
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Jan-Jun 2023 - Edge Inference Pipeline</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Edge devices running inference under unstable connectivity with undetected failures</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>Inference wrapper with request queue and exponential backoff</li>
+                                    <li>Local caching for offline operation</li>
+                                    <li>Health monitor tracking latency/error rate</li>
+                                    <li>Automatic fallback to lighter models</li>
+                                    <li>Graceful degradation instead of hard failures</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Tech Stack</h4>
+                                <p>Python, Redis, ONNX Runtime, FastAPI, Docker</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Jul-Dec 2023 - GPU Observability Correlator</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>GPU throttling traced to network congestion, not hardware; no unified observability view</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>Metrics collector for GPU utilization (nvidia-smi)</li>
+                                    <li>Network stats collection (tc, ethtool)</li>
+                                    <li>Workload log aggregation</li>
+                                    <li>Correlation engine detecting causal patterns</li>
+                                    <li>Dashboards showing relationships across layers</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Tech Stack</h4>
+                                <p>Python, DCGM, Grafana, InfluxDB, Telegraf</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2022 -->
+            <div class="year-section">
+                <h2 class="year-header"><span class="year-badge">2022</span> Transition & Education</h2>
+                
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Jan-Aug 2022 - Wipro Ltd Final Period</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Final months at Wipro focusing on automation and knowledge transfer</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Key Activities</h4>
+                                <ul>
+                                    <li>Automated configuration validation workflows</li>
+                                    <li>Python/Terraform-based infrastructure automation</li>
+                                    <li>Incident response and RCA documentation</li>
+                                    <li>Knowledge transfer to team</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Sep 2022 - Started MSc Program & Independent Consulting</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Began MSc in Electronic & Computer Technology (IoT) in Dublin while starting independent consulting work</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Focus Areas</h4>
+                                <ul>
+                                    <li>Enrolled in MSc IoT program</li>
+                                    <li>Began NDA consulting engagements</li>
+                                    <li>Focus on AI-ready networking and observability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Oct-Dec 2022 - AI Traffic Optimization Project</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>First consulting project focused on AI training cluster network predictability</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Deliverables</h4>
+                                <ul>
+                                    <li>Traffic generator simulating GPU-to-GPU patterns</li>
+                                    <li>Support for all-reduce, ring, and tree topologies</li>
+                                    <li>Synthetic workload profiler for switch stress testing</li>
+                                    <li>Pre-deployment bottleneck identification</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Tech Stack</h4>
+                                <p>Python, Scapy, Pandas, Linux tc/netem, Prometheus</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2021 -->
+            <div class="year-section">
+                <h2 class="year-header"><span class="year-badge">2021</span> Wipro Ltd</h2>
+                
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Jan 2021 - Started at Wipro Ltd</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Joined Wipro Ltd as Security Network Engineer</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Initial Responsibilities</h4>
+                                <ul>
+                                    <li>Enterprise L2/L3 network operations (BGP, OSPF)</li>
+                                    <li>SD-WAN and VPN management</li>
+                                    <li>Onboarding and training on client infrastructure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-item">
+                    <div class="month-header">
+                        <span class="month-title">Feb-Dec 2021 - Hybrid Cloud & Security Work</span>
+                        <span class="month-toggle">▼</span>
+                    </div>
+                    <div class="month-content">
+                        <div class="month-details">
+                            <div class="detail-section">
+                                <h4>Context</h4>
+                                <p>Expanded role into hybrid cloud networking and security operations</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Key Activities</h4>
+                                <ul>
+                                    <li>AWS VPC and hybrid connectivity support</li>
+                                    <li>IPSec tunnel configuration and troubleshooting</li>
+                                    <li>Firewall policy enforcement and review</li>
+                                    <li>On-call escalation and incident response</li>
+                                    <li>RCA documentation and permanent fixes</li>
+                                    <li>Change management under strict compliance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas for site-wide background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script>
+        // Timeline-specific JavaScript
+        const timeline = document.getElementById('timeline');
+        const expandAllBtn = document.getElementById('expand-all');
+        const collapseAllBtn = document.getElementById('collapse-all');
+        const toggleViewBtn = document.getElementById('toggle-view');
+        let isCompactView = false;
+
+        // Toggle individual month items
+        const monthHeaders = document.querySelectorAll('.month-header');
+        monthHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const monthItem = header.parentElement;
+                monthItem.classList.toggle('open');
+            });
+        });
+
+        // Expand all sections
+        expandAllBtn.addEventListener('click', () => {
+            const allItems = document.querySelectorAll('.month-item');
+            allItems.forEach(item => item.classList.add('open'));
+        });
+
+        // Collapse all sections
+        collapseAllBtn.addEventListener('click', () => {
+            const allItems = document.querySelectorAll('.month-item');
+            allItems.forEach(item => item.classList.remove('open'));
+        });
+
+        // Toggle compact/detailed view
+        toggleViewBtn.addEventListener('click', () => {
+            isCompactView = !isCompactView;
+            const detailSections = document.querySelectorAll('.detail-section:not(:first-child)');
+            
+            if (isCompactView) {
+                detailSections.forEach(section => section.classList.add('compact-hidden'));
+                toggleViewBtn.textContent = 'Detailed View';
+                toggleViewBtn.classList.add('active');
+            } else {
+                detailSections.forEach(section => section.classList.remove('compact-hidden'));
+                toggleViewBtn.textContent = 'Compact View';
+                toggleViewBtn.classList.remove('active');
+            }
+        });
+
+        // Make timeline sections visible immediately (they're on a separate page)
+        document.querySelectorAll('.year-section').forEach(section => {
+            section.style.opacity = '1';
+            section.style.transform = 'translateY(0)';
+        });
+    </script>
+</body>
+</html>
