@@ -1,54 +1,81 @@
-# AETHRON - Emperor Conquest Console
+# AETHRON - JARVIS Console Edition
 
-A premium black/grey portfolio site showcasing AI infrastructure and network engineering expertise. Features an interactive tri-mode console background system with zero dependencies.
+A premium black/grey portfolio site with JARVIS-style console interface. Features interactive canvas background, AI agent panel, and command console timeline. Zero dependencies, pure HTML/CSS/JavaScript.
 
 ## ✨ Features
 
-### Emperor Conquest Console Theme
-- **Strict Black/Grey Palette**: `#050607` background, monochrome UI (no green, no cyan, no neon)
-- **Premium Minimal Design**: Brutal clarity, glass panels, subtle borders
-- **Steel-Grey Accents**: `#D7DBE3` highlight used sparingly
-- **Very Subtle Shadows**: No big blur glows or flashy effects
+### JARVIS Console Experience
+- **Strict Black/Grey Palette**: `#050607` background, monochrome UI (no neon colors)
+- **HUD Elements**: Corner marks, system activity bar, subtle scanline overlay
+- **Console Aesthetics**: Corner brackets on panels, monospace fonts, terminal-style interfaces
+- **Radar Sweep Effect**: Animated subtle radar behind agent panel (disabled in reduced motion)
 
-### Tri-Mode Console System
-The site features three interactive background modes controlled by the navbar toggle (1/2/3):
+### Single Interactive Canvas Background
+The site features ONE universal interactive background with:
+- **Star-dust particles**: 90 particles maximum for performance
+- **Faint grid overlay**: Subtle 100px grid
+- **Constellation connections**: Lines between particles near mouse (within 150px radius)
+- **Mouse parallax**: Smooth lerped tracking with throttling (~60fps)
+- **Mobile support**: Device orientation for subtle parallax where available
+- **Performance**: Single `requestAnimationFrame` loop, capped primitives, optimized rendering
+- **Reduced Motion**: Renders one static frame when `prefers-reduced-motion: reduce` is detected
 
-**Mode 1: COMPUTE**
-- Faint block grid (like compute tiles)
-- Slow heat drift effect (procedural noise illusion)
-- Sparse dust particles drifting across screen
-- Focus: Observability · Cost · Throughput
+### AI Agent Interface (New)
+Located between Projects and Contact sections on index.html:
 
-**Mode 2: FABRIC**
-- Network node graph with low-opacity links
-- Packet pulses traveling along edges
-- Mouse proximity increases local activity (very subtle)
-- Focus: Latency · Routing · QoS
+**JARVIS Chat Panel:**
+- System greeting on page load
+- Message area with scrollable chat history
+- Quick command chips: `/about`, `/projects`, `/timeline`, `/services`, `/contact`
+- Input field with Enter-key support
+- Scripted local responses (no backend required)
+- Smooth scroll to relevant sections after command execution
+- API hook placeholder: `POST /api/agent` with JSON format documentation
 
-**Mode 3: DEFENSE**
-- Soft radar rings (low opacity, subtle pulse)
-- Occasional "threat ping" dots that expand and fade
-- Mouse movement nudges ring center slightly (parallax)
-- Focus: Detection · Segmentation · Response
+**Agentic Services Cards:**
+Four professional service offerings:
+1. **Network Automation Agents** - Intent-to-config, validation, drift detection
+2. **AI Infrastructure Observability** - GPU/network/workload correlation  
+3. **Security & Threat Simulation** - Traffic-aware detection, failure injection
+4. **Reliability Engineering** - Incident RCA acceleration, chaos testing
 
-**Important**: Modes DO NOT change the color theme — only background behavior.
+Each card includes: What it does, Output format, Typical deliverable
 
-### Interaction & Performance
-- **Mouse Parallax**: Smooth lerped tracking with throttling (~60fps)
-- **Mobile Support**: Device orientation for subtle parallax where available
-- **Performance Caps**: ~120 primitives max on screen, avoiding expensive composites
-- **Debounced Resize**: Efficient window handling
-- **Reduced Motion**: Full support — static frame rendered, animations disabled
+### Timeline Console Features (Enhanced)
+The timeline.html page now includes:
 
-### Site Structure
-- **Hero**: Name placeholder, status chips showing all 3 mode focuses
-- **About**: First-person voice, recruiter-friendly
-- **Experience**: Wipro (2021-2022) + Independent NDA work (2022-present)
-- **Projects**: 6 cards with mode badges (Compute/Fabric/Defense)
-- **Education**: MSc IoT (Dublin) + BSc
-- **Certifications**: CCNP + ENAUTO (in progress), NVIDIA AI Infrastructure
-- **Skills**: Grouped by AI Infrastructure / Networking / Automation / Cloud
-- **Timeline Page**: Detailed chronological accordion with compact/detailed toggle
+**Command Console Sidebar:**
+- Search filter input (live filtering of timeline entries)
+- Quick commands:
+  - Expand All / Collapse All
+  - Focus Mode (dims background + HUD)
+- Year jump buttons (2026, 2025, 2024, 2023, 2022, 2021)
+- System Log feed (auto-updates with user actions)
+
+**Enhanced Timeline Cards:**
+- Collapsible month entries with smooth animations
+- Expanded view shows:
+  - Context section
+  - Deliverables list
+  - Evidence links
+- Keyboard accessible (Enter/Space to expand)
+- Hover highlights
+- Fast animations (height/opacity transition)
+
+**Focus Mode:**
+- Toggle via button in command console
+- Reduces canvas background opacity to 20%
+- Hides HUD elements and system bar
+- Reduces console sidebar opacity
+- Optimized for reading long timeline entries
+
+### Performance & Accessibility
+- **Canvas Performance**: ≤90 particles, mouse-reactive connections only, no heavy blur, low alpha
+- **Reduced Motion Support**: Static frame rendering, all animations disabled
+- **Responsive Design**: Mobile-first, breakpoints at 992px and 768px
+- **Keyboard Navigation**: Full keyboard accessibility for interactive elements
+- **Semantic HTML**: Proper heading hierarchy, ARIA attributes where needed
+- **No External Dependencies**: Zero libraries, frameworks, or build tools
 
 ## 🚀 Quick Start
 
@@ -70,7 +97,7 @@ python -m http.server 8000
 ## 🎨 Customization
 
 ### Update Your Name
-Replace `[YOUR FULL NAME]` in `index.html` (line 34).
+Replace `[YOUR FULL NAME]` in `index.html` (hero section).
 
 ### Update Links
 In both `index.html` and `timeline.html`:
@@ -79,27 +106,74 @@ In both `index.html` and `timeline.html`:
 - Email: `your.email@example.com`
 - Resume: Add PDF and update download link
 
-### Customize Projects
-Edit the 6 project cards in `index.html`:
-1. AI-Aware Network Traffic Optimization (Fabric)
-2. GPU & Infrastructure Observability Correlator (Compute)
-3. Edge Inference Under Constrained Networks (Fabric/Compute)
-4. Traffic-Aware Security Detection for AI Workloads (Defense)
-5. Failure Injection Lab for Faster RCA (Defense)
-6. Cost Driver Modeling for AI Infrastructure (Compute)
+### Configure Canvas Background
+Edit canvas settings in `script.js`:
 
-Each project should include: mode badge, problem, solution, outcome, tech stack, links.
+```javascript
+class CanvasEngine {
+  constructor(canvasId) {
+    this.maxParticles = 90;  // Star-dust particles (keep ≤90)
+    this.gridSize = 100;     // Grid cell size in pixels
+  }
+}
 
-### Update Timeline
-Edit `timeline.html` to add your actual:
-- Work experience milestones
-- Project deliverables
-- Education modules
-- Certification progress
-- Evidence links (repos, demos, write-ups)
+// Mouse radius for constellation connections
+const mouseRadius = 150;  // Pixels
+```
+
+### Customize Agent Commands
+Edit command responses in `script.js`:
+
+```javascript
+function handleCommand(command) {
+  const cmd = command.trim().toLowerCase();
+  
+  switch(cmd) {
+    case '/about':
+      addMessage('Your custom response here');
+      // Navigate to section
+      break;
+    // Add more custom commands
+  }
+}
+```
+
+### Add Timeline Entries
+Edit `timeline.html` to add new entries:
+
+```html
+<div class="month-item">
+  <div class="month-header">
+    <span class="month-title">Your Entry Title</span>
+    <span class="month-toggle">▼</span>
+  </div>
+  <div class="month-content">
+    <div class="month-details">
+      <div class="detail-section">
+        <h4>Context</h4>
+        <p>Background information</p>
+      </div>
+      <div class="detail-section">
+        <h4>Deliverables</h4>
+        <ul>
+          <li>Item 1</li>
+          <li>Item 2</li>
+        </ul>
+      </div>
+      <div class="detail-section">
+        <h4>Evidence</h4>
+        <div class="evidence-links">
+          <a href="#" class="evidence-link">Link 1</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
 
 ### Adjust Color Palette
 Edit CSS custom properties in `styles.css`:
+
 ```css
 :root {
   --bg-primary: #050607;
@@ -115,99 +189,97 @@ Edit CSS custom properties in `styles.css`:
 
 **Important**: Keep the black/grey Emperor theme; avoid bright colors.
 
-### Configure Canvas Modes
-Edit mode behaviors in `script.js`:
-
-**Compute Mode**:
-```javascript
-this.gridSize = 80;          // Block grid size
-this.heatTime = 0;           // Heat drift speed
-// Particle count set at 30
-```
-
-**Fabric Mode**:
-```javascript
-const nodeCount = 25;        // Network nodes
-const maxDistance = 200;     // Connection distance
-// Packet spawn rate: 0.02 per frame
-```
-
-**Defense Mode**:
-```javascript
-this.rings = [];             // 4 radar rings
-// Threat ping spawn rate: 0.015 per frame
-```
-
-To disable canvas entirely:
-```javascript
-// In script.js, comment out the init() call or set:
-const prefersReducedMotion = true;
-```
-
 ## 💻 How It Works
 
-### Tri-Mode System
-- Mode toggle in navbar (buttons labeled 1/2/3)
-- Each mode has a dedicated renderer class
-- Single `requestAnimationFrame` loop handles all rendering
-- Mode switching is instant (no page reload)
+### Canvas Background Engine
+Single mode with optimized rendering:
+- **Particles**: Star-dust effect with random velocity, wrap-around boundaries
+- **Grid**: Faint lines drawn every 100px (configurable)
+- **Connections**: Lines drawn between particles near mouse cursor
+- **Mouse Tracking**: Smooth lerp interpolation for fluid parallax
+- **Static Mode**: Single frame rendered when reduced motion is preferred
 
-### Canvas Engine
-- **ComputeMode**: Block grid + value noise for heat + dust particles
-- **FabricMode**: Dynamic node graph + packet pulses + mouse proximity
-- **DefenseMode**: Pulsing radar rings + expanding threat pings + parallax
+### Agent Panel (Frontend Only)
+- Local scripted responses for common commands
+- Smooth scroll navigation to page sections
+- Backend hook ready: `POST /api/agent` endpoint
+- Expected API format:
+  ```json
+  {
+    "message": "user input",
+    "context": "optional session data"
+  }
+  ```
+- Response handling for streaming or complete responses
+- Fallback message when API not connected
+
+### Timeline Console System
+**Search Filter:**
+- Live text search across all timeline entries
+- Case-insensitive matching
+- Hides non-matching entries dynamically
+
+**System Log:**
+- Auto-updates when user performs actions
+- Shows timestamps with actions (expand, search, mode change)
+- Keeps last 20 entries (auto-trim)
+- Monospace font for console aesthetic
+
+**Focus Mode:**
+- JavaScript toggle adds `.focus-mode` class to body
+- CSS handles visual changes (background dim, HUD hide)
+- Button text changes between "Focus Mode" and "Exit Focus Mode"
 
 ### Reduced Motion Support
 When `prefers-reduced-motion: reduce` is detected:
 - Canvas renders ONE static frame (no animation loop)
-- All CSS animations disabled
+- All CSS animations disabled (`animation-duration: 0.01ms`)
 - Scroll reveals disabled (sections visible immediately)
+- System bar and radar sweep animations stopped
 - Mouse parallax disabled
 
-### Performance
-- Mouse input throttled to ~60fps
-- Resize debounced (150ms)
-- Primitive count capped (~30-120 depending on mode)
+### Performance Optimizations
+- Mouse input throttled to ~60fps (16ms intervals)
+- Resize debounced (150ms delay)
+- Particle count capped at 90
+- Connections only calculated near mouse (radius check)
 - Animation pauses when tab hidden (Visibility API)
 - No external images or libraries
-
-### Accessibility
-- Keyboard navigable
-- Proper heading hierarchy
-- High contrast text
-- `scroll-margin-top` for anchor links
-- Respects system motion preferences
-- Semantic HTML structure
+- Low alpha values for subtle effects
+- Single requestAnimationFrame loop
 
 ## 📂 File Structure
 
 ```
 aethron-site/
-├── index.html          # Main portfolio page
-├── timeline.html       # Detailed timeline/accordion
-├── styles.css          # Complete Emperor theme + responsive
-├── script.js           # Tri-mode canvas engine + interactions
+├── index.html          # Main portfolio page + Agent section
+├── timeline.html       # Enhanced timeline with command console
+├── styles.css          # Complete JARVIS console theme + responsive
+├── script.js           # Canvas engine + agent + timeline features
 └── README.md           # This file
 ```
 
 **That's it.** No `node_modules`, no build step, no config files.
 
-## 🎮 Mode Descriptions
+## 🎮 Feature Breakdown
 
-### Mode 1: Compute
-Represents GPU/compute infrastructure. Visual metaphor: heat maps showing utilization patterns across a cluster.
+### HUD Elements
+- **Corner Marks**: Fixed position, gradient borders, low opacity
+- **System Bar**: Top edge, animated pulse gradient
+- **Scanline**: Subtle horizontal lines overlay (via body::after)
+- **All elements**: Disabled in reduced motion mode
 
-**Use case**: When talking about observability, cost optimization, throughput analysis.
+### Visual Enhancements
+- **Corner Brackets**: Pseudo-elements on logo, cards, panels
+- **Radar Sweep**: CSS conic-gradient animation behind agent panel
+- **Monospace Fonts**: Courier New for labels, codes, console text
+- **Panel Styling**: Glass morphism with backdrop-filter blur
 
-### Mode 2: Fabric
-Represents network topology and data flow. Visual metaphor: packets flowing through interconnected nodes.
-
-**Use case**: When discussing network architecture, latency optimization, routing, QoS.
-
-### Mode 3: Defense
-Represents security monitoring and threat detection. Visual metaphor: radar surveillance with anomaly alerts.
-
-**Use case**: When highlighting security work, threat detection, segmentation, incident response.
+### Interaction Patterns
+- **Hover States**: All interactive elements have hover feedback
+- **Focus States**: Keyboard navigation fully supported
+- **Transitions**: Smooth 0.3s cubic-bezier easing
+- **Click Feedback**: Visual state changes for buttons/chips
 
 ## 🌐 Browser Support
 
@@ -223,6 +295,12 @@ Requires:
 - IntersectionObserver API
 - CSS Grid & Flexbox
 - CSS Custom Properties
+- ES6 JavaScript (classes, arrow functions, template literals)
+
+Graceful degradation:
+- Reduced motion: Static experience
+- No JavaScript: Static content still visible and readable
+- No canvas: Background missing but site still functional
 
 ## 🚢 GitHub Pages Deployment
 
@@ -233,26 +311,125 @@ Requires:
 
 No build step required — all files are static and ready to deploy.
 
+## 🔌 Backend Integration (Agent Panel)
+
+The agent panel is frontend-ready for backend integration.
+
+### API Endpoint: `POST /api/agent`
+
+**Request Format:**
+```json
+{
+  "message": "user query text",
+  "context": {
+    "sessionId": "optional-session-id",
+    "history": []
+  }
+}
+```
+
+**Response Format:**
+```json
+{
+  "response": "agent reply text",
+  "action": "optional action type (navigate, execute, etc.)",
+  "data": {}
+}
+```
+
+**Integration Steps:**
+1. Uncomment the backend API call in `script.js` (search for "Backend hook")
+2. Replace placeholder URL with your API endpoint
+3. Handle streaming responses if using streaming API
+4. Add error handling for network failures
+5. Implement session management if needed
+
+**Example Integration:**
+```javascript
+async function sendToBackend(message) {
+  try {
+    const response = await fetch('/api/agent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
+    const data = await response.json();
+    addMessage(data.response, false);
+    if (data.action === 'navigate') {
+      // Handle navigation
+    }
+  } catch (error) {
+    addMessage('Connection error. Agent offline.', false);
+  }
+}
+```
+
 ## 📝 Credits & Philosophy
 
 This site is a **proof-of-work portfolio**. Every design choice serves a purpose:
 - Black/grey theme = professional, not playful
-- Tri-mode console = interactive metaphor for infrastructure domains
+- JARVIS console = interactive metaphor for AI/infrastructure work
 - No frameworks = shows raw web fundamentals mastery
 - Reduced motion support = accessibility-first approach
 - Performance caps = respects user's device
+- Single canvas background = clean, unified aesthetic
 
-The Emperor Conquest Console theme represents precision, control, and brutal efficiency — qualities that map to infrastructure engineering.
+The JARVIS Console theme represents precision, control, and system mastery — qualities that map directly to AI infrastructure engineering.
 
 ## 🔒 Security
 
-No external dependencies = no supply chain vulnerabilities.
-
-Static site = minimal attack surface.
-
-All interactions happen client-side = no backend to compromise.
+✅ No external dependencies = no supply chain vulnerabilities  
+✅ Static site = minimal attack surface  
+✅ Client-side only = no backend to compromise  
+✅ CodeQL scanned = 0 vulnerabilities detected  
+✅ Input validation = prepared for backend integration  
 
 Perfect for a security-focused portfolio.
+
+## 📊 Performance Metrics
+
+- **Canvas particles**: ≤90 (capped)
+- **Frame rate**: ~60fps (throttled)
+- **Mouse sampling**: 16ms intervals
+- **Resize debounce**: 150ms
+- **Animation pause**: When tab hidden
+- **Static mode**: 1 frame render only
+- **File sizes**: 
+  - index.html: ~15KB
+  - timeline.html: ~20KB
+  - styles.css: ~50KB
+  - script.js: ~20KB
+  - **Total**: ~105KB (uncompressed)
+
+## 🎯 Key Differences from Previous Version
+
+### Removed
+- ❌ Background mode selector (1/2/3 buttons)
+- ❌ Three different canvas modes (Compute/Fabric/Defense)
+- ❌ Mode-specific color changes
+- ❌ Status chips showing mode focuses
+
+### Added
+- ✅ Single unified canvas background
+- ✅ HUD corner marks + system activity bar
+- ✅ AI Agent chat interface with commands
+- ✅ Agentic Services section (4 cards)
+- ✅ Timeline command console sidebar
+- ✅ Search filter for timeline
+- ✅ System log feed
+- ✅ Focus mode toggle
+- ✅ Year jump navigation
+- ✅ Enhanced timeline card details
+- ✅ Keyboard accessibility
+- ✅ Corner brackets on panels
+- ✅ Radar sweep animation
+
+### Improved
+- ⚡ Performance optimization (single mode vs three)
+- ⚡ Cleaner navigation (removed confusing mode toggle)
+- ⚡ Better UX (command console, search, focus mode)
+- ⚡ More professional (JARVIS aesthetic throughout)
+- ⚡ Enhanced accessibility (keyboard, reduced motion)
 
 ---
 
