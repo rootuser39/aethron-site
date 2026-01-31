@@ -25,13 +25,16 @@
                     <li><a href="timeline.html" class="active">Timeline</a></li>
                 </ul>
             </div>
-            <div class="mode-toggle">
-                <button class="mode-button active" data-mode="compute">1</button>
-                <button class="mode-button" data-mode="fabric">2</button>
-                <button class="mode-button" data-mode="defense">3</button>
-            </div>
+
         </div>
     </nav>
+
+    <!-- HUD Elements -->
+    <div class="hud-corner top-left"></div>
+    <div class="hud-corner top-right"></div>
+    <div class="hud-corner bottom-left"></div>
+    <div class="hud-corner bottom-right"></div>
+    <div class="system-bar"></div>
 
     <div class="timeline-page">
         <div class="timeline-header">
@@ -39,17 +42,53 @@
             <p>Detailed chronological view of work, education, projects, and certifications</p>
         </div>
 
-        <div class="timeline-controls">
-            <a href="index.html" class="back-link">← Back to Portfolio</a>
-            <button class="control-button" id="expand-all">Expand All</button>
-            <button class="control-button" id="collapse-all">Collapse All</button>
-            <button class="control-button" id="toggle-view">Compact View</button>
-        </div>
+        <!-- Timeline Main Grid: Console + Timeline -->
+        <div class="timeline-main">
+            <!-- Command Console Sidebar -->
+            <aside class="command-console">
+                <h3>Command Console</h3>
+                
+                <div class="console-section">
+                    <h4>Search</h4>
+                    <input type="text" id="timeline-search" placeholder="Search timeline..." />
+                </div>
+                
+                <div class="console-section">
+                    <h4>Quick Commands</h4>
+                    <div class="console-buttons">
+                        <button class="console-btn" id="expand-all">▶ Expand All</button>
+                        <button class="console-btn" id="collapse-all">◀ Collapse All</button>
+                        <button class="console-btn" id="focus-mode">◉ Focus Mode</button>
+                    </div>
+                </div>
+                
+                <div class="console-section">
+                    <h4>Year Jump</h4>
+                    <div class="year-jump-buttons">
+                        <button class="year-jump-btn" data-year="2026">2026</button>
+                        <button class="year-jump-btn" data-year="2025">2025</button>
+                        <button class="year-jump-btn" data-year="2024">2024</button>
+                        <button class="year-jump-btn" data-year="2023">2023</button>
+                        <button class="year-jump-btn" data-year="2022">2022</button>
+                        <button class="year-jump-btn" data-year="2021">2021</button>
+                    </div>
+                </div>
+                
+                <div class="console-section">
+                    <h4>System Log</h4>
+                    <div id="system-log">
+                        <div class="log-entry">[INIT] Timeline loaded</div>
+                        <div class="log-entry">[INFO] 6 years indexed</div>
+                        <div class="log-entry">[READY] Console active</div>
+                    </div>
+                </div>
+            </aside>
 
-        <div class="timeline-container" id="timeline">
-            <!-- 2026 -->
-            <div class="year-section">
-                <h2 class="year-header"><span class="year-badge">2026</span> Current & Planned</h2>
+            <!-- Timeline Container -->
+            <div class="timeline-container">
+                <!-- 2026 -->
+                <div class="year-section" data-year="2026">
+                    <h2 class="year-header"><span class="year-badge">2026</span> Current & Planned</h2>
                 
                 <div class="month-item">
                     <div class="month-header">
@@ -74,8 +113,8 @@
                             <div class="detail-section">
                                 <h4>Evidence</h4>
                                 <div class="evidence-links">
-                                    <a href="#" class="evidence-link">Lab Repository (Placeholder)</a>
-                                    <a href="#" class="evidence-link">Write-up (Placeholder)</a>
+                                    <a href="#" class="evidence-link">📁 Lab Repository</a>
+                                    <a href="#" class="evidence-link">📄 Write-up</a>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +147,7 @@
             </div>
 
             <!-- 2025 -->
-            <div class="year-section">
+            <div class="year-section" data-year="2025">
                 <h2 class="year-header"><span class="year-badge">2025</span> Education & Consulting</h2>
                 
                 <div class="month-item">
@@ -135,7 +174,7 @@
                             <div class="detail-section">
                                 <h4>Evidence</h4>
                                 <div class="evidence-links">
-                                    <a href="https://github.com/rootuser39" class="evidence-link">GitHub Repository</a>
+                                    <a href="https://github.com/rootuser39" class="evidence-link" target="_blank">📁 GitHub Repository</a>
                                 </div>
                             </div>
                         </div>
@@ -192,7 +231,7 @@
             </div>
 
             <!-- 2024 -->
-            <div class="year-section">
+            <div class="year-section" data-year="2024">
                 <h2 class="year-header"><span class="year-badge">2024</span> Consulting & Projects</h2>
                 
                 <div class="month-item">
@@ -280,7 +319,7 @@
             </div>
 
             <!-- 2023 -->
-            <div class="year-section">
+            <div class="year-section" data-year="2023">
                 <h2 class="year-header"><span class="year-badge">2023</span> Consulting & Education</h2>
                 
                 <div class="month-item">
@@ -343,7 +382,7 @@
             </div>
 
             <!-- 2022 -->
-            <div class="year-section">
+            <div class="year-section" data-year="2022">
                 <h2 class="year-header"><span class="year-badge">2022</span> Transition & Education</h2>
                 
                 <div class="month-item">
@@ -423,7 +462,7 @@
             </div>
 
             <!-- 2021 -->
-            <div class="year-section">
+            <div class="year-section" data-year="2021">
                 <h2 class="year-header"><span class="year-badge">2021</span> Wipro Ltd</h2>
                 
                 <div class="month-item">
@@ -476,10 +515,18 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 
+    <!-- HUD Elements -->
+    <div class="hud-corner top-left"></div>
+    <div class="hud-corner top-right"></div>
+    <div class="hud-corner bottom-left"></div>
+    <div class="hud-corner bottom-right"></div>
+    <div class="system-bar"></div>
+
     <!-- Canvas for site-wide background -->
-    <canvas id="particle-canvas"></canvas>
+    <canvas id="canvas-background"></canvas>
 
     <!-- Footer -->
     <footer>
@@ -487,63 +534,6 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
-    <script>
-        // Timeline-specific JavaScript
-        const timeline = document.getElementById('timeline');
-        const expandAllBtn = document.getElementById('expand-all');
-        const collapseAllBtn = document.getElementById('collapse-all');
-        const toggleViewBtn = document.getElementById('toggle-view');
-        let isCompactView = false;
-
-        // Toggle individual month items
-        const monthHeaders = document.querySelectorAll('.month-header');
-        monthHeaders.forEach(header => {
-            header.addEventListener('click', () => {
-                const monthItem = header.parentElement;
-                monthItem.classList.toggle('open');
-            });
-        });
-
-        // Expand all sections
-        expandAllBtn.addEventListener('click', () => {
-            const allItems = document.querySelectorAll('.month-item');
-            allItems.forEach(item => item.classList.add('open'));
-        });
-
-        // Collapse all sections
-        collapseAllBtn.addEventListener('click', () => {
-            const allItems = document.querySelectorAll('.month-item');
-            allItems.forEach(item => item.classList.remove('open'));
-        });
-
-        // Toggle compact/detailed view
-        toggleViewBtn.addEventListener('click', () => {
-            isCompactView = !isCompactView;
-            const detailSections = document.querySelectorAll('.detail-section:not(:first-child)');
-            
-            if (isCompactView) {
-                detailSections.forEach(section => section.classList.add('compact-hidden'));
-                toggleViewBtn.textContent = 'Detailed View';
-                toggleViewBtn.classList.add('active');
-            } else {
-                detailSections.forEach(section => section.classList.remove('compact-hidden'));
-                toggleViewBtn.textContent = 'Compact View';
-                toggleViewBtn.classList.remove('active');
-            }
-        });
-
-        // Make timeline sections visible immediately (they're on a separate page)
-        document.querySelectorAll('.year-section').forEach(section => {
-            section.style.opacity = '1';
-            section.style.transform = 'translateY(0)';
-        });
-    </script>
-    
-    <!-- Canvas for site-wide background -->
-    <canvas id="canvas-background"></canvas>
-    
-    <!-- Main script -->
     <script src="script.js"></script>
 </body>
 </html>
