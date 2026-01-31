@@ -1,7 +1,6 @@
 /* ============================================
-   AETHRON - Emperor Conquest Console
-   Complete rewrite from scratch
-   Tri-Mode Canvas Background System
+   AETHRON - JARVIS Console Edition
+   Single canvas background + all interactive features
    ============================================ */
 
 // ============================================
@@ -9,9 +8,6 @@
 // ============================================
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// Current mode: 'compute', 'fabric', or 'defense'
-let currentMode = 'compute';
 
 // Mouse tracking with lerp for smooth parallax
 let mouse = { x: 0, y: 0 };
@@ -24,7 +20,7 @@ let animationId = null;
 let isAnimating = false;
 
 // ============================================
-// CANVAS ENGINE CLASS
+// CANVAS ENGINE - SINGLE MODE
 // ============================================
 
 class CanvasEngine {
@@ -39,14 +35,15 @@ class CanvasEngine {
     this.width = 0;
     this.height = 0;
     
-    // Mode-specific renderers
-    this.modes = {
-      compute: new ComputeMode(this.ctx),
-      fabric: new FabricMode(this.ctx),
-      defense: new DefenseMode(this.ctx)
-    };
+    // Particles for star-dust effect (capped at 90)
+    this.particles = [];
+    this.maxParticles = 90;
+    
+    // Grid configuration
+    this.gridSize = 100;
     
     this.resize();
+    this.initParticles();
   }
   
   resize() {
@@ -54,421 +51,127 @@ class CanvasEngine {
     this.height = window.innerHeight;
     this.canvas.width = this.width;
     this.canvas.height = this.height;
-    
-    // Notify all modes of resize
-    Object.values(this.modes).forEach(mode => {
-      if (mode.onResize) mode.onResize(this.width, this.height);
-    });
   }
   
-  render() {
-    // Clear canvas
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    
-    // Render current mode
-    const mode = this.modes[currentMode];
-    if (mode && mode.render) {
-      mode.render(this.width, this.height, mouse);
-    }
-  }
-  
-  renderStaticFrame() {
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    const mode = this.modes[currentMode];
-    if (mode && mode.renderStatic) {
-      mode.renderStatic(this.width, this.height);
-    }
-  }
-}
-
-// ============================================
-// COMPUTE MODE - Block grid + heat drift + dust particles
-// ============================================
-
-class ComputeMode {
-  constructor(ctx) {
-    this.ctx = ctx;
-    this.gridSize = 80;
-    this.blocks = [];
+  initParticles() {
     this.particles = [];
-    this.heatTime = 0;
-    this.init();
-  }
-  
-  init() {
-    // Initialize dust particles (sparse)
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < this.maxParticles; i++) {
       this.particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * 0.2,
-        vy: (Math.random() - 0.5) * 0.2,
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
         size: Math.random() * 1.5 + 0.5,
         opacity: Math.random() * 0.3 + 0.1
       });
     }
   }
   
-  onResize(width, height) {
-    // Reinit blocks on resize
-    this.blocks = [];
-    const cols = Math.ceil(width / this.gridSize);
-    const rows = Math.ceil(height / this.gridSize);
+  render(mouseX, mouseY) {
+    // Clear canvas
+    this.ctx.clearRect(0, 0, this.width, this.height);
     
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < rows; j++) {
-        this.blocks.push({
-          x: i * this.gridSize,
-          y: j * this.gridSize,
-          heat: Math.random()
-        });
-      }
+    // Draw faint grid
+    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+    this.ctx.lineWidth = 1;
+    
+    for (let x = 0; x < this.width; x += this.gridSize) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(x, 0);
+      this.ctx.lineTo(x, this.height);
+      this.ctx.stroke();
     }
-  }
-  
-  // Simple value noise approximation for heat drift
-  noise(x, y, t) {
-    return Math.sin(x * 0.01 + t) * Math.cos(y * 0.01 + t * 0.7) * 0.5 + 0.5;
-  }
-  
-  render(width, height, mouse) {
-    this.heatTime += 0.003;
     
-    // Draw block grid with heat effect
-    this.blocks.forEach(block => {
-      const heat = this.noise(block.x, block.y, this.heatTime);
-      const opacity = 0.02 + heat * 0.03;
-      
-      this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-      this.ctx.lineWidth = 1;
-      this.ctx.strokeRect(block.x, block.y, this.gridSize, this.gridSize);
-      
-      // Subtle heat glow in center
-      if (heat > 0.7) {
-        this.ctx.fillStyle = `rgba(255, 255, 255, ${(heat - 0.7) * 0.02})`;
-        this.ctx.fillRect(block.x + 2, block.y + 2, this.gridSize - 4, this.gridSize - 4);
-      }
-    });
+    for (let y = 0; y < this.height; y += this.gridSize) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(0, y);
+      this.ctx.lineTo(this.width, y);
+      this.ctx.stroke();
+    }
     
-    // Update and draw dust particles
+    // Update and draw particles
     this.particles.forEach(p => {
+      // Move particles
       p.x += p.vx;
       p.y += p.vy;
       
       // Wrap around
-      if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
+      if (p.x < 0) p.x = this.width;
+      if (p.x > this.width) p.x = 0;
+      if (p.y < 0) p.y = this.height;
+      if (p.y > this.height) p.y = 0;
       
+      // Draw particle
       this.ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
       this.ctx.beginPath();
       this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       this.ctx.fill();
     });
-  }
-  
-  renderStatic(width, height) {
-    // Static frame: just grid, no animation
-    const cols = Math.ceil(width / this.gridSize);
-    const rows = Math.ceil(height / this.gridSize);
     
-    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-    this.ctx.lineWidth = 1;
-    
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < rows; j++) {
-        this.ctx.strokeRect(i * this.gridSize, j * this.gridSize, this.gridSize, this.gridSize);
-      }
-    }
-  }
-}
-
-// ============================================
-// FABRIC MODE - Node graph + packet pulses
-// ============================================
-
-class FabricMode {
-  constructor(ctx) {
-    this.ctx = ctx;
-    this.nodes = [];
-    this.edges = [];
-    this.packets = [];
-    this.init();
-  }
-  
-  init() {
-    // Create network nodes (limit to ~20-30 for performance)
-    const nodeCount = 25;
-    for (let i = 0; i < nodeCount; i++) {
-      this.nodes.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        baseX: 0,
-        baseY: 0,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15,
-        size: Math.random() * 2 + 1
-      });
-    }
-    
-    // Store base positions
-    this.nodes.forEach(node => {
-      node.baseX = node.x;
-      node.baseY = node.y;
+    // Draw connections near mouse (constellation effect)
+    const mouseRadius = 150;
+    const nearParticles = this.particles.filter(p => {
+      const dx = p.x - mouseX;
+      const dy = p.y - mouseY;
+      return Math.sqrt(dx * dx + dy * dy) < mouseRadius;
     });
     
-    // Create edges between nearby nodes
-    this.updateEdges();
-  }
-  
-  onResize(width, height) {
-    // Reposition nodes proportionally
-    this.nodes.forEach(node => {
-      node.x = (node.baseX / window.innerWidth) * width;
-      node.y = (node.baseY / window.innerHeight) * height;
-      node.baseX = node.x;
-      node.baseY = node.y;
-    });
-    this.updateEdges();
-  }
-  
-  updateEdges() {
-    this.edges = [];
-    const maxDistance = 200;
-    
-    for (let i = 0; i < this.nodes.length; i++) {
-      for (let j = i + 1; j < this.nodes.length; j++) {
-        const dx = this.nodes[i].x - this.nodes[j].x;
-        const dy = this.nodes[i].y - this.nodes[j].y;
+    // Draw lines between nearby particles (limit to avoid performance hit)
+    const maxConnections = 10;
+    for (let i = 0; i < Math.min(nearParticles.length, maxConnections); i++) {
+      for (let j = i + 1; j < Math.min(nearParticles.length, maxConnections); j++) {
+        const p1 = nearParticles[i];
+        const p2 = nearParticles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         
-        if (dist < maxDistance) {
-          this.edges.push({
-            from: i,
-            to: j,
-            opacity: (1 - dist / maxDistance) * 0.15
-          });
+        if (dist < 100) {
+          const opacity = (1 - dist / 100) * 0.15;
+          this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+          this.ctx.lineWidth = 1;
+          this.ctx.beginPath();
+          this.ctx.moveTo(p1.x, p1.y);
+          this.ctx.lineTo(p2.x, p2.y);
+          this.ctx.stroke();
         }
       }
     }
   }
   
-  render(width, height, mouse) {
-    // Update node positions
-    this.nodes.forEach(node => {
-      node.baseX += node.vx;
-      node.baseY += node.vy;
-      
-      // Bounce off edges
-      if (node.baseX < 0 || node.baseX > width) node.vx *= -1;
-      if (node.baseY < 0 || node.baseY > height) node.vy *= -1;
-      
-      // Apply subtle mouse influence
-      const dx = mouse.x - node.baseX;
-      const dy = mouse.y - node.baseY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      
-      if (dist < 150) {
-        const influence = (150 - dist) / 150 * 0.3;
-        node.x = node.baseX + (dx / dist) * influence * 20;
-        node.y = node.baseY + (dy / dist) * influence * 20;
-      } else {
-        node.x = node.baseX;
-        node.y = node.baseY;
-      }
-    });
+  renderStaticFrame() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
     
-    // Occasionally spawn packets
-    if (Math.random() < 0.02 && this.packets.length < 10) {
-      const edge = this.edges[Math.floor(Math.random() * this.edges.length)];
-      if (edge) {
-        this.packets.push({
-          edge: edge,
-          progress: 0,
-          speed: 0.01 + Math.random() * 0.02
-        });
-      }
+    // Draw static grid
+    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+    this.ctx.lineWidth = 1;
+    
+    for (let x = 0; x < this.width; x += this.gridSize) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(x, 0);
+      this.ctx.lineTo(x, this.height);
+      this.ctx.stroke();
     }
     
-    // Draw edges
-    this.edges.forEach(edge => {
-      const from = this.nodes[edge.from];
-      const to = this.nodes[edge.to];
-      
-      this.ctx.strokeStyle = `rgba(255, 255, 255, ${edge.opacity})`;
-      this.ctx.lineWidth = 1;
+    for (let y = 0; y < this.height; y += this.gridSize) {
       this.ctx.beginPath();
-      this.ctx.moveTo(from.x, from.y);
-      this.ctx.lineTo(to.x, to.y);
+      this.ctx.moveTo(0, y);
+      this.ctx.lineTo(this.width, y);
       this.ctx.stroke();
-    });
+    }
     
-    // Draw nodes
-    this.nodes.forEach(node => {
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    // Draw particles in static positions
+    this.particles.forEach(p => {
+      this.ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`;
       this.ctx.beginPath();
-      this.ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
-      this.ctx.fill();
-    });
-    
-    // Update and draw packets
-    this.packets = this.packets.filter(packet => {
-      packet.progress += packet.speed;
-      
-      if (packet.progress >= 1) return false;
-      
-      const from = this.nodes[packet.edge.from];
-      const to = this.nodes[packet.edge.to];
-      const x = from.x + (to.x - from.x) * packet.progress;
-      const y = from.y + (to.y - from.y) * packet.progress;
-      
-      // Draw packet
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-      this.ctx.beginPath();
-      this.ctx.arc(x, y, 2, 0, Math.PI * 2);
-      this.ctx.fill();
-      
-      return true;
-    });
-  }
-  
-  renderStatic(width, height) {
-    // Static frame: nodes and edges only, no movement
-    this.updateEdges();
-    
-    this.edges.forEach(edge => {
-      const from = this.nodes[edge.from];
-      const to = this.nodes[edge.to];
-      
-      this.ctx.strokeStyle = `rgba(255, 255, 255, ${edge.opacity * 0.5})`;
-      this.ctx.lineWidth = 1;
-      this.ctx.beginPath();
-      this.ctx.moveTo(from.x, from.y);
-      this.ctx.lineTo(to.x, to.y);
-      this.ctx.stroke();
-    });
-    
-    this.nodes.forEach(node => {
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-      this.ctx.beginPath();
-      this.ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+      this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       this.ctx.fill();
     });
   }
 }
 
 // ============================================
-// DEFENSE MODE - Radar rings + threat pings
-// ============================================
-
-class DefenseMode {
-  constructor(ctx) {
-    this.ctx = ctx;
-    this.rings = [];
-    this.threats = [];
-    this.ringTime = 0;
-    this.centerX = window.innerWidth / 2;
-    this.centerY = window.innerHeight / 2;
-    this.init();
-  }
-  
-  init() {
-    // Initialize radar rings
-    for (let i = 0; i < 4; i++) {
-      this.rings.push({
-        radius: 100 + i * 150,
-        opacity: 0.1 - i * 0.02,
-        speed: 0.3 + i * 0.1
-      });
-    }
-  }
-  
-  onResize(width, height) {
-    this.centerX = width / 2;
-    this.centerY = height / 2;
-  }
-  
-  render(width, height, mouse) {
-    this.ringTime += 0.01;
-    
-    // Apply mouse parallax to center (subtle)
-    const dx = (mouse.x - width / 2) * 0.05;
-    const dy = (mouse.y - height / 2) * 0.05;
-    const cx = this.centerX + dx;
-    const cy = this.centerY + dy;
-    
-    // Draw radar rings (pulsing)
-    this.rings.forEach((ring, i) => {
-      const pulse = Math.sin(this.ringTime * ring.speed + i * 0.5) * 0.03;
-      const opacity = ring.opacity + pulse;
-      
-      this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-      this.ctx.lineWidth = 1;
-      this.ctx.beginPath();
-      this.ctx.arc(cx, cy, ring.radius, 0, Math.PI * 2);
-      this.ctx.stroke();
-    });
-    
-    // Occasionally spawn threat pings
-    if (Math.random() < 0.015 && this.threats.length < 8) {
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * 300 + 100;
-      this.threats.push({
-        x: cx + Math.cos(angle) * distance,
-        y: cy + Math.sin(angle) * distance,
-        radius: 5,
-        maxRadius: 40 + Math.random() * 30,
-        opacity: 0.4,
-        growSpeed: 1.5
-      });
-    }
-    
-    // Update and draw threat pings
-    this.threats = this.threats.filter(threat => {
-      threat.radius += threat.growSpeed;
-      threat.opacity -= 0.008;
-      
-      if (threat.opacity <= 0 || threat.radius > threat.maxRadius) return false;
-      
-      this.ctx.strokeStyle = `rgba(255, 255, 255, ${threat.opacity})`;
-      this.ctx.lineWidth = 1.5;
-      this.ctx.beginPath();
-      this.ctx.arc(threat.x, threat.y, threat.radius, 0, Math.PI * 2);
-      this.ctx.stroke();
-      
-      return true;
-    });
-    
-    // Draw center point
-    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-    this.ctx.beginPath();
-    this.ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-    this.ctx.fill();
-  }
-  
-  renderStatic(width, height) {
-    // Static frame: just rings, no pings
-    const cx = width / 2;
-    const cy = height / 2;
-    
-    this.rings.forEach(ring => {
-      this.ctx.strokeStyle = `rgba(255, 255, 255, ${ring.opacity})`;
-      this.ctx.lineWidth = 1;
-      this.ctx.beginPath();
-      this.ctx.arc(cx, cy, ring.radius, 0, Math.PI * 2);
-      this.ctx.stroke();
-    });
-    
-    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-    this.ctx.beginPath();
-    this.ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-    this.ctx.fill();
-  }
-}
-
-// ============================================
-// MOUSE & DEVICE ORIENTATION TRACKING
+// MOUSE TRACKING
 // ============================================
 
 function setupMouseTracking() {
@@ -510,27 +213,10 @@ function animate() {
   
   // Render current mode
   if (engine) {
-    engine.render();
+    engine.render(mouse.x, mouse.y);
   }
   
   animationId = requestAnimationFrame(animate);
-}
-
-// ============================================
-// MODE SWITCHING
-// ============================================
-
-function setMode(mode) {
-  if (['compute', 'fabric', 'defense'].includes(mode)) {
-    currentMode = mode;
-    
-    // Update button states
-    document.querySelectorAll('.mode-button').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.mode === mode);
-    });
-    
-    console.log(`Mode switched to: ${mode}`);
-  }
 }
 
 // ============================================
@@ -545,9 +231,9 @@ function setupNavigation() {
   // Scroll effect on navbar
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
+      navbar?.classList.add('scrolled');
     } else {
-      navbar.classList.remove('scrolled');
+      navbar?.classList.remove('scrolled');
     }
     updateActiveNavLink();
   });
@@ -625,6 +311,239 @@ function setupSectionReveal() {
 }
 
 // ============================================
+// AGENT PANEL - JARVIS Chat Interface
+// ============================================
+
+function setupAgentPanel() {
+  const agentInput = document.getElementById('agent-input');
+  const agentSend = document.getElementById('agent-send');
+  const agentMessages = document.getElementById('agent-messages');
+  const commandChips = document.querySelectorAll('.command-chip');
+  
+  if (!agentInput || !agentSend || !agentMessages) return;
+  
+  function addMessage(text, isUser = false) {
+    const msg = document.createElement('div');
+    msg.className = isUser ? 'agent-message user-message' : 'agent-message system-message';
+    msg.textContent = text;
+    agentMessages.appendChild(msg);
+    agentMessages.scrollTop = agentMessages.scrollHeight;
+  }
+  
+  function handleCommand(command) {
+    const cmd = command.trim().toLowerCase();
+    
+    addMessage(command, true);
+    
+    setTimeout(() => {
+      switch(cmd) {
+        case '/about':
+          addMessage('About: AI Infrastructure & Network Systems Engineer specializing in GPU cluster networking, observability, and cost optimization. CCNP Enterprise + NVIDIA AI Infrastructure certified.');
+          setTimeout(() => {
+            const aboutSection = document.querySelector('#about');
+            if (aboutSection) {
+              aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 500);
+          break;
+        case '/projects':
+          addMessage('Projects: 6 major deliverables including AI traffic optimization, GPU observability, edge inference, security detection, failure injection, and cost modeling.');
+          setTimeout(() => {
+            const projectsSection = document.querySelector('#projects');
+            if (projectsSection) {
+              projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 500);
+          break;
+        case '/timeline':
+          addMessage('Timeline: Detailed chronological view available. Redirecting...');
+          setTimeout(() => {
+            window.location.href = 'timeline.html';
+          }, 800);
+          break;
+        case '/services':
+          addMessage('Agentic Services: Network Automation, AI Infrastructure Observability, Security & Threat Simulation, Reliability Engineering. See Agent section for details.');
+          setTimeout(() => {
+            const agentSection = document.querySelector('#agent');
+            if (agentSection) {
+              agentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 500);
+          break;
+        case '/contact':
+          addMessage('Contact: GitHub, LinkedIn, Email links available in Contact section.');
+          setTimeout(() => {
+            const contactSection = document.querySelector('#contact');
+            if (contactSection) {
+              contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 500);
+          break;
+        case '/help':
+          addMessage('Available commands: /about, /projects, /timeline, /services, /contact');
+          break;
+        default:
+          addMessage('Agent core offline (API not connected). Available commands: /about, /projects, /timeline, /services, /contact');
+      }
+    }, 300);
+    
+    agentInput.value = '';
+  }
+  
+  agentSend.addEventListener('click', () => {
+    const value = agentInput.value.trim();
+    if (value) {
+      handleCommand(value);
+    }
+  });
+  
+  agentInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const value = agentInput.value.trim();
+      if (value) {
+        handleCommand(value);
+      }
+    }
+  });
+  
+  commandChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const command = chip.dataset.command;
+      if (command) {
+        agentInput.value = command;
+        handleCommand(command);
+      }
+    });
+  });
+  
+  // Initial greeting
+  setTimeout(() => {
+    addMessage('System online. Agent interface ready. Use quick commands or type /help for available operations.');
+  }, 500);
+}
+
+// ============================================
+// TIMELINE PAGE FEATURES
+// ============================================
+
+function setupTimelineFeatures() {
+  // Only run on timeline page
+  if (!document.querySelector('.timeline-page')) return;
+  
+  const searchInput = document.getElementById('timeline-search');
+  const expandAllBtn = document.getElementById('expand-all');
+  const collapseAllBtn = document.getElementById('collapse-all');
+  const focusModeBtn = document.getElementById('focus-mode');
+  const systemLog = document.getElementById('system-log');
+  const timelineItems = document.querySelectorAll('.month-item');
+  const yearButtons = document.querySelectorAll('.year-jump-btn');
+  
+  // Search filter
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      timelineItems.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(query)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      logSystem(`Search: "${e.target.value}"`);
+    });
+  }
+  
+  // Expand/Collapse all
+  if (expandAllBtn) {
+    expandAllBtn.addEventListener('click', () => {
+      timelineItems.forEach(item => item.classList.add('open'));
+      logSystem('Expanded all timeline entries');
+    });
+  }
+  
+  if (collapseAllBtn) {
+    collapseAllBtn.addEventListener('click', () => {
+      timelineItems.forEach(item => item.classList.remove('open'));
+      logSystem('Collapsed all timeline entries');
+    });
+  }
+  
+  // Focus mode toggle
+  let focusModeActive = false;
+  if (focusModeBtn) {
+    focusModeBtn.addEventListener('click', () => {
+      focusModeActive = !focusModeActive;
+      document.body.classList.toggle('focus-mode', focusModeActive);
+      const btnText = focusModeBtn.querySelector('.btn-text');
+      if (btnText) {
+        btnText.textContent = focusModeActive ? 'Exit Focus Mode' : 'Focus Mode';
+      }
+      focusModeBtn.classList.toggle('active', focusModeActive);
+      logSystem(focusModeActive ? 'Focus mode enabled' : 'Focus mode disabled');
+    });
+  }
+  
+  // Year jump buttons
+  yearButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const year = btn.dataset.year;
+      const yearSection = document.querySelector(`[data-year="${year}"]`);
+      if (yearSection) {
+        yearSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        logSystem(`Jumped to year ${year}`);
+      }
+    });
+  });
+  
+  // Timeline item toggle with logging
+  timelineItems.forEach(item => {
+    const header = item.querySelector('.month-header');
+    if (header) {
+      header.addEventListener('click', () => {
+        const wasOpen = item.classList.contains('open');
+        item.classList.toggle('open');
+        const title = item.querySelector('.month-title')?.textContent || 'Entry';
+        logSystem(wasOpen ? `Collapsed: ${title}` : `Expanded: ${title}`);
+      });
+    }
+  });
+  
+  // Keyboard accessibility for timeline items
+  timelineItems.forEach(item => {
+    const header = item.querySelector('.month-header');
+    if (header) {
+      header.setAttribute('tabindex', '0');
+      header.setAttribute('role', 'button');
+      header.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          header.click();
+        }
+      });
+    }
+  });
+  
+  function logSystem(message) {
+    if (!systemLog) return;
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    const timestamp = new Date().toLocaleTimeString();
+    entry.textContent = `[${timestamp}] ${message}`;
+    systemLog.appendChild(entry);
+    systemLog.scrollTop = systemLog.scrollHeight;
+    
+    // Keep only last 20 logs
+    while (systemLog.children.length > 20) {
+      systemLog.removeChild(systemLog.firstChild);
+    }
+  }
+  
+  // Initial log
+  logSystem('Timeline console initialized');
+}
+
+// ============================================
 // RESIZE HANDLING
 // ============================================
 
@@ -668,48 +587,45 @@ function setupVisibilityHandler() {
 // ============================================
 
 function init() {
-  console.log('🎮 Emperor Conquest Console - Initializing...');
+  console.log('🎮 AETHRON JARVIS Console - Initializing...');
   
   // Initialize canvas engine
-  engine = new CanvasEngine('canvas-background');
-  
-  if (!engine || !engine.canvas) {
-    console.error('Canvas initialization failed');
-    return;
+  const canvasEl = document.getElementById('canvas-background');
+  if (canvasEl) {
+    engine = new CanvasEngine('canvas-background');
+    
+    if (engine && engine.canvas) {
+      // Setup all event handlers
+      setupMouseTracking();
+      setupResizeHandler();
+      setupVisibilityHandler();
+      
+      // Initialize mouse position to center
+      mouse.x = targetMouse.x = window.innerWidth / 2;
+      mouse.y = targetMouse.y = window.innerHeight / 2;
+      
+      // Start animation or render static frame
+      if (prefersReducedMotion) {
+        console.log('⚡ Reduced motion detected - rendering static frame');
+        engine.renderStaticFrame();
+      } else {
+        console.log('🚀 Starting animation loop');
+        isAnimating = true;
+        animate();
+      }
+    }
   }
   
-  // Setup mode toggle buttons
-  document.querySelectorAll('.mode-button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      setMode(btn.dataset.mode);
-    });
-  });
-  
-  // Set initial mode
-  setMode('compute');
-  
-  // Setup all event handlers
-  setupMouseTracking();
+  // Setup navigation
   setupNavigation();
   setupSectionReveal();
-  setupResizeHandler();
-  setupVisibilityHandler();
   
-  // Initialize mouse position to center
-  mouse.x = targetMouse.x = window.innerWidth / 2;
-  mouse.y = targetMouse.y = window.innerHeight / 2;
+  // Setup agent panel (index page only)
+  setupAgentPanel();
   
-  // Start animation or render static frame
-  if (prefersReducedMotion) {
-    console.log('⚡ Reduced motion detected - rendering static frame');
-    engine.renderStaticFrame();
-  } else {
-    console.log('🚀 Starting animation loop');
-    isAnimating = true;
-    animate();
-  }
+  // Setup timeline features (timeline page only)
+  setupTimelineFeatures();
   
-  console.log(`Mode: ${currentMode}`);
   console.log(`Reduced Motion: ${prefersReducedMotion}`);
 }
 

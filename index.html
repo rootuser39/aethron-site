@@ -18,6 +18,7 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#projects">Projects</a></li>
+                    <li><a href="#agent">Agent</a></li>
                     <li><a href="#education">Education</a></li>
                     <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#skills">Skills</a></li>
@@ -25,11 +26,7 @@
                     <li><a href="timeline.html">Timeline</a></li>
                 </ul>
             </div>
-            <div class="mode-toggle">
-                <button class="mode-button active" data-mode="compute">1</button>
-                <button class="mode-button" data-mode="fabric">2</button>
-                <button class="mode-button" data-mode="defense">3</button>
-            </div>
+
         </div>
     </nav>
 
@@ -191,6 +188,105 @@
         </div>
     </section>
 
+    <!-- Agent Section -->
+    <section id="agent">
+        <h2>Agent Interface</h2>
+        <div class="agent-container">
+            <!-- Agent Panel (JARVIS-style chat) -->
+            <div class="agent-panel">
+                <h3>Agent Interface</h3>
+                <p class="agent-panel-subtitle">Interactive AI assistant for navigation and insights</p>
+                
+                <div class="agent-messages" id="agent-messages">
+                    <div class="agent-message system-message">
+                        <strong>SYSTEM:</strong> Agent initialized. Ready for commands.
+                    </div>
+                    <div class="agent-message system-message">
+                        <strong>INFO:</strong> Use quick commands below or type custom queries. Backend hook: /api/agent
+                    </div>
+                </div>
+                
+                <div class="command-chips">
+                    <button class="command-chip" data-command="/about">/about</button>
+                    <button class="command-chip" data-command="/projects">/projects</button>
+                    <button class="command-chip" data-command="/timeline">/timeline</button>
+                    <button class="command-chip" data-command="/services">/services</button>
+                    <button class="command-chip" data-command="/contact">/contact</button>
+                </div>
+                
+                <div class="agent-input-group">
+                    <input type="text" id="agent-input" placeholder="Enter command or query..." />
+                    <button id="agent-send">Send</button>
+                </div>
+                
+                <div class="agent-note">
+                    <strong>Note:</strong> This interface requires backend integration at <code>/api/agent</code> endpoint.
+                    <br><br>
+                    <strong>API Specification:</strong><br>
+                    • Method: POST<br>
+                    • Content-Type: application/json<br>
+                    • Request: <code>{"command": "string"}</code><br>
+                    • Response: <code>{"response": "string", "status": "ok|error"}</code><br>
+                    • Timeout: 5 seconds recommended<br>
+                    • No authentication required for demo (add as needed)<br>
+                    • Error example: <code>{"response": "Service unavailable", "status": "error"}</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agentic Services -->
+        <h2 style="margin-top: 4rem;">Agentic Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🤖</div>
+                <h3>Network Automation Agents</h3>
+                <p>Autonomous agents for network discovery, configuration validation, and policy enforcement across multi-vendor environments.</p>
+                <span class="service-label">What:</span>
+                <p>Self-healing network automation with ML-driven anomaly detection</p>
+                <span class="service-label">Output:</span>
+                <p>Automated remediation playbooks, real-time compliance reports</p>
+                <span class="service-label">Deliverable:</span>
+                <p>Production-ready agent framework + integration docs</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h3>AI Infrastructure Observability</h3>
+                <p>Multi-layer observability correlating GPU utilization, network performance, and workload metrics for AI/ML systems.</p>
+                <span class="service-label">What:</span>
+                <p>Causal analysis engine linking infrastructure events to training impact</p>
+                <span class="service-label">Output:</span>
+                <p>Unified dashboards, predictive alerting, optimization recommendations</p>
+                <span class="service-label">Deliverable:</span>
+                <p>Observability pipeline + custom Grafana dashboards</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3>Security & Threat Simulation</h3>
+                <p>Traffic-aware security detection trained on AI workload patterns, plus adversarial simulation for defense validation.</p>
+                <span class="service-label">What:</span>
+                <p>ML-based threat detection + automated red team scenarios</p>
+                <span class="service-label">Output:</span>
+                <p>Attack simulation reports, reduced false positives, hardening guides</p>
+                <span class="service-label">Deliverable:</span>
+                <p>Detection system + simulation framework + runbooks</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>Reliability Engineering</h3>
+                <p>Chaos engineering and failure injection frameworks for discovering critical failure modes before production impact.</p>
+                <span class="service-label">What:</span>
+                <p>Automated fault injection across network, compute, and storage layers</p>
+                <span class="service-label">Output:</span>
+                <p>Failure mode catalog, RCA acceleration, resilience scoring</p>
+                <span class="service-label">Deliverable:</span>
+                <p>Testing framework + scenario library + analysis tools</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Education Section -->
     <section id="education">
         <h2>Education</h2>
@@ -291,6 +387,13 @@
             <a href="#" class="contact-link" download>Download Resume</a>
         </div>
     </section>
+
+    <!-- HUD Elements -->
+    <div class="hud-corner top-left"></div>
+    <div class="hud-corner top-right"></div>
+    <div class="hud-corner bottom-left"></div>
+    <div class="hud-corner bottom-right"></div>
+    <div class="system-bar"></div>
 
     <!-- Footer -->
     <footer>
