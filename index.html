@@ -220,9 +220,16 @@
                 </div>
                 
                 <div class="agent-note">
-                    <strong>Note:</strong> This interface requires backend integration at <code>/api/agent</code> endpoint. 
-                    The endpoint should accept POST requests with JSON payload <code>{"command": "string"}</code> 
-                    and return <code>{"response": "string", "status": "ok|error"}</code>.
+                    <strong>Note:</strong> This interface requires backend integration at <code>/api/agent</code> endpoint.
+                    <br><br>
+                    <strong>API Specification:</strong><br>
+                    • Method: POST<br>
+                    • Content-Type: application/json<br>
+                    • Request: <code>{"command": "string"}</code><br>
+                    • Response: <code>{"response": "string", "status": "ok|error"}</code><br>
+                    • Timeout: 5 seconds recommended<br>
+                    • No authentication required for demo (add as needed)<br>
+                    • Error example: <code>{"response": "Service unavailable", "status": "error"}</code>
                 </div>
             </div>
         </div>

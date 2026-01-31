@@ -117,8 +117,9 @@ class CanvasEngine {
     });
     
     // Draw lines between nearby particles (limit to avoid performance hit)
-    for (let i = 0; i < nearParticles.length && i < 10; i++) {
-      for (let j = i + 1; j < nearParticles.length && j < 10; j++) {
+    const maxConnections = 10;
+    for (let i = 0; i < Math.min(nearParticles.length, maxConnections); i++) {
+      for (let j = i + 1; j < Math.min(nearParticles.length, maxConnections); j++) {
         const p1 = nearParticles[i];
         const p2 = nearParticles[j];
         const dx = p1.x - p2.x;
@@ -474,7 +475,10 @@ function setupTimelineFeatures() {
     focusModeBtn.addEventListener('click', () => {
       focusModeActive = !focusModeActive;
       document.body.classList.toggle('focus-mode', focusModeActive);
-      focusModeBtn.textContent = focusModeActive ? '◉ Exit Focus Mode' : '◉ Focus Mode';
+      const btnText = focusModeBtn.querySelector('.btn-text');
+      if (btnText) {
+        btnText.textContent = focusModeActive ? 'Exit Focus Mode' : 'Focus Mode';
+      }
       focusModeBtn.classList.toggle('active', focusModeActive);
       logSystem(focusModeActive ? 'Focus mode enabled' : 'Focus mode disabled');
     });
