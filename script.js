@@ -74,7 +74,7 @@ const ctx = canvas.getContext('2d');
 
 // Particle system configuration
 const particleConfig = {
-  count: prefersReducedMotion ? 0 : 40, // Low density for performance
+  count: prefersReducedMotion ? 0 : 12, // Extremely subtle - 70% reduction from 40
   maxSpeed: 0.3, // Slow drift
   connectionDistance: 150,
   particleSize: 2
@@ -111,7 +111,7 @@ class Particle {
   }
 
   draw() {
-    ctx.fillStyle = 'rgba(0, 212, 255, 0.6)';
+    ctx.fillStyle = 'rgba(0, 255, 122, 0.2)'; // Very subtle green
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
@@ -135,8 +135,8 @@ function drawConnections() {
       const distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < particleConfig.connectionDistance) {
-        const opacity = (1 - distance / particleConfig.connectionDistance) * 0.3;
-        ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
+        const opacity = (1 - distance / particleConfig.connectionDistance) * 0.15; // Very subtle connections
+        ctx.strokeStyle = `rgba(0, 255, 122, ${opacity})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
