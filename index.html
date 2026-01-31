@@ -3,187 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AETHRON - Luxury tech portfolio showcasing innovative software solutions with a modern cyber sci-fi aesthetic.">
     <title>AETHRON - Tech Portfolio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0a0a0a;
-            color: #e0e0e0;
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-
-        header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
-            background-size: 200% 200%;
-            animation: gradientShift 15s ease infinite;
-            padding: 4rem 2rem;
-            text-align: center;
-            border-bottom: 2px solid #00d4ff;
-            position: relative;
-            overflow: hidden;
-        }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            color: #00d4ff;
-            margin-bottom: 1rem;
-            letter-spacing: 0.2rem;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5),
-                         0 0 40px rgba(0, 212, 255, 0.3),
-                         0 0 60px rgba(0, 212, 255, 0.2);
-        }
-
-        .tagline {
-            font-size: 1.3rem;
-            color: #b0b0b0;
-            font-weight: 300;
-        }
-
-        section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        h2 {
-            font-size: 2.2rem;
-            color: #00d4ff;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #333;
-            padding-bottom: 0.5rem;
-        }
-
-        .about-content {
-            font-size: 1.1rem;
-            color: #c0c0c0;
-            line-height: 1.8;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .project-card {
-            background: rgba(26, 26, 46, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(51, 51, 51, 0.5);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: transform 0.4s ease, 
-                        border-color 0.4s ease, 
-                        box-shadow 0.4s ease,
-                        background-color 0.4s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 212, 255, 0.6);
-            box-shadow: 0 12px 24px rgba(0, 212, 255, 0.2),
-                        0 8px 16px rgba(0, 0, 0, 0.4);
-            background-color: rgba(26, 26, 46, 0.8);
-        }
-
-        .project-card h3 {
-            color: #00d4ff;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .project-card p {
-            color: #b0b0b0;
-            line-height: 1.6;
-        }
-
-        .contact-links {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .contact-link {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: #1a1a2e;
-            color: #00d4ff;
-            text-decoration: none;
-            border: 2px solid #00d4ff;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .contact-link:hover {
-            background-color: #00d4ff;
-            color: #0a0a0a;
-        }
-
-        footer {
-            background-color: #0a0a0a;
-            text-align: center;
-            padding: 2rem;
-            color: #666;
-            border-top: 1px solid #333;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .tagline {
-                font-size: 1rem;
-            }
-
-            h2 {
-                font-size: 1.8rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-links {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            section {
-                padding: 3rem 1.5rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>AETHRON</h1>
-        <p class="tagline">Building innovative technology solutions for tomorrow</p>
-    </header>
+    <!-- Glass Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#hero" class="nav-logo">AETHRON</a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
+    <!-- Hero Section with Particles and Grid -->
+    <section class="hero" id="hero">
+        <canvas id="particle-canvas"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="hero-content">
+            <h1>AETHRON</h1>
+            <p class="tagline">Building innovative technology solutions for tomorrow</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
     <section id="about">
         <h2>About</h2>
         <div class="about-content">
@@ -191,6 +39,7 @@
         </div>
     </section>
 
+    <!-- Projects Section -->
     <section id="projects">
         <h2>Projects</h2>
         <div class="projects-grid">
@@ -209,6 +58,7 @@
         </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="contact">
         <h2>Contact</h2>
         <div class="contact-links">
@@ -217,8 +67,12 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2026 AETHRON. All rights reserved.</p>
     </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
