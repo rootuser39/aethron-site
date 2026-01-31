@@ -1,6 +1,6 @@
 /* ============================================
-   AETHRON - Emperor Conquest Console Theme
-   Black/Grey UI - Premium, Brutal, Minimalist
+   Portfolio Console Theme
+   Black/Grey UI - Premium, Professional, Minimalist
    ============================================ */
 
 /* === CSS VARIABLES (STRICT PALETTE) === */
@@ -1220,15 +1220,25 @@ body::after {
 /* Agent Section */
 #agent { padding: 4rem 2rem; }
 
-.agent-container {
+/* === INTERFACE SECTION === */
+.interface-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-top: -2rem;
+  margin-bottom: 3rem;
+}
+
+.interface-container {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.agent-panel {
+/* Command Palette Panel */
+.command-palette-panel {
   background: var(--surface);
   border: 2px solid var(--border-strong);
   border-radius: 8px;
@@ -1237,7 +1247,7 @@ body::after {
   overflow: hidden;
 }
 
-.agent-panel::before {
+.command-palette-panel::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -1256,56 +1266,62 @@ body::after {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.agent-panel > * { 
+.command-palette-panel > * { 
   position: relative; 
   z-index: 1; 
 }
 
-.agent-panel h3 { 
+.command-palette-panel h3,
+.system-status-panel h3 { 
   color: var(--highlight); 
-  font-size: 1.8rem; 
+  font-size: 1.5rem; 
   font-weight: 600; 
   margin-bottom: 0.5rem; 
   font-family: 'Courier New', Courier, monospace; 
 }
 
-.agent-panel-subtitle { 
+.panel-subtitle { 
   color: var(--text-muted); 
-  font-size: 0.95rem; 
+  font-size: 0.9rem; 
   margin-bottom: 1.5rem; 
 }
 
-.agent-messages {
+.command-input-group { 
+  display: flex; 
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#command-input {
+  flex: 1;
+  padding: 0.8rem;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 1rem;
-  min-height: 200px;
-  max-height: 300px;
-  overflow-y: auto;
-  margin-bottom: 1rem;
+  border-radius: 2px;
+  color: var(--text-primary);
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.9rem;
 }
 
-.agent-message {
-  margin-bottom: 0.8rem;
-  padding: 0.5rem;
+#command-input:focus { 
+  outline: none; 
+  border-color: var(--highlight); 
+}
+
+#command-send {
+  padding: 0.8rem 1.5rem;
+  background: var(--highlight);
+  color: var(--bg-primary);
+  border: none;
   border-radius: 2px;
-  line-height: 1.5;
+  font-weight: 600;
+  font-family: 'Courier New', Courier, monospace;
+  cursor: pointer;
+  transition: var(--transition-smooth);
 }
 
-.system-message {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-muted);
-  border-left: 2px solid var(--highlight);
-}
-
-.user-message {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-primary);
-  text-align: right;
-  border-right: 2px solid var(--highlight);
+#command-send:hover { 
+  background: var(--text-primary); 
 }
 
 .command-chips {
@@ -1333,86 +1349,107 @@ body::after {
   color: var(--highlight);
 }
 
-.agent-input-group { display: flex; gap: 0.5rem; }
-
-#agent-input {
-  flex: 1;
-  padding: 0.8rem;
+.command-output {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid var(--border);
-  border-radius: 2px;
-  color: var(--text-primary);
+  border-radius: 4px;
+  padding: 1rem;
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: auto;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
-#agent-input:focus { outline: none; border-color: var(--highlight); }
-
-#agent-send {
-  padding: 0.8rem 1.5rem;
-  background: var(--highlight);
-  color: var(--bg-primary);
-  border: none;
+.output-message {
+  margin-bottom: 0.8rem;
+  padding: 0.5rem;
   border-radius: 2px;
-  font-weight: 600;
-  font-family: 'Courier New', Courier, monospace;
-  cursor: pointer;
-  transition: var(--transition-smooth);
+  line-height: 1.5;
 }
 
-#agent-send:hover { background: var(--text-primary); }
-
-.agent-note {
-  margin-top: 1rem;
-  padding: 0.8rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-left: 2px solid var(--border);
-  font-size: 0.85rem;
+.output-message.system-message {
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-muted);
-  font-family: 'Courier New', Courier, monospace;
+  border-left: 2px solid var(--highlight);
 }
 
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+.output-message.user-message {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  text-align: right;
+  border-right: 2px solid var(--highlight);
 }
 
-.service-card {
+/* System Status Panel */
+.system-status-panel {
   background: var(--surface);
-  border: 2px solid var(--border);
+  border: 2px solid var(--border-strong);
   border-radius: 8px;
   padding: 2rem;
-  position: relative;
-  transition: var(--transition-smooth);
 }
 
-.service-card::before,
-.service-card::after {
-  content: '';
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--border-strong);
-  transition: var(--transition-smooth);
+.status-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.service-card::before { top: 8px; left: 8px; border-right: none; border-bottom: none; }
-.service-card::after { bottom: 8px; right: 8px; border-left: none; border-top: none; }
-
-.service-card:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-card);
-  transform: translateY(-4px);
+.status-widget {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem;
 }
 
-.service-card:hover::before,
-.service-card:hover::after { border-color: var(--highlight); }
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
 
-.service-icon { font-size: 2rem; margin-bottom: 1rem; }
-.service-card h3 { color: var(--highlight); font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; }
-.service-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; margin-bottom: 0.8rem; }
-.service-label { font-weight: 600; color: var(--text-primary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05rem; display: block; margin-top: 0.5rem; }
+.widget-icon {
+  color: var(--highlight);
+  font-size: 1rem;
+}
+
+.widget-title {
+  color: var(--highlight);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.widget-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+}
+
+.metric-label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.metric-value {
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+}
 
 /* Timeline Console */
 .timeline-main {
@@ -1612,11 +1649,10 @@ body.focus-mode .command-console { opacity: 0.5; }
 }
 
 @media (max-width: 768px) {
-  .services-grid { grid-template-columns: 1fr; }
-  .agent-container { grid-template-columns: 1fr; }
+  .interface-container { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .system-bar { animation: none !important; }
-  .agent-panel::before { animation: none !important; }
+  .command-palette-panel::before { animation: none !important; }
 }

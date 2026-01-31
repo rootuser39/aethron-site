@@ -1,5 +1,5 @@
 /* ============================================
-   AETHRON - JARVIS Console Edition
+   Portfolio Console Interface
    Single canvas background + all interactive features
    ============================================ */
 
@@ -311,34 +311,34 @@ function setupSectionReveal() {
 }
 
 // ============================================
-// AGENT PANEL - JARVIS Chat Interface
+// COMMAND PALETTE - Interface Section
 // ============================================
 
-function setupAgentPanel() {
-  const agentInput = document.getElementById('agent-input');
-  const agentSend = document.getElementById('agent-send');
-  const agentMessages = document.getElementById('agent-messages');
+function setupCommandPalette() {
+  const commandInput = document.getElementById('command-input');
+  const commandSend = document.getElementById('command-send');
+  const commandOutput = document.getElementById('command-output');
   const commandChips = document.querySelectorAll('.command-chip');
   
-  if (!agentInput || !agentSend || !agentMessages) return;
+  if (!commandInput || !commandSend || !commandOutput) return;
   
-  function addMessage(text, isUser = false) {
+  function addOutput(text, isUser = false) {
     const msg = document.createElement('div');
-    msg.className = isUser ? 'agent-message user-message' : 'agent-message system-message';
+    msg.className = isUser ? 'output-message user-message' : 'output-message system-message';
     msg.textContent = text;
-    agentMessages.appendChild(msg);
-    agentMessages.scrollTop = agentMessages.scrollHeight;
+    commandOutput.appendChild(msg);
+    commandOutput.scrollTop = commandOutput.scrollHeight;
   }
   
   function handleCommand(command) {
     const cmd = command.trim().toLowerCase();
     
-    addMessage(command, true);
+    addOutput(`> ${command}`, true);
     
     setTimeout(() => {
       switch(cmd) {
         case '/about':
-          addMessage('About: AI Infrastructure & Network Systems Engineer specializing in GPU cluster networking, observability, and cost optimization. CCNP Enterprise + NVIDIA AI Infrastructure certified.');
+          addOutput('ABOUT: Rishabh Durugkar - AI Infrastructure & Network Systems Engineer specializing in GPU cluster networking, observability, and cost optimization. CCNP Enterprise + NVIDIA AI Infrastructure certified.');
           setTimeout(() => {
             const aboutSection = document.querySelector('#about');
             if (aboutSection) {
@@ -347,7 +347,7 @@ function setupAgentPanel() {
           }, 500);
           break;
         case '/projects':
-          addMessage('Projects: 6 major deliverables including AI traffic optimization, GPU observability, edge inference, security detection, failure injection, and cost modeling.');
+          addOutput('PROJECTS: 6 major deliverables including AI traffic optimization, GPU observability, edge inference, security detection, failure injection, and cost modeling. Scrolling to projects section...');
           setTimeout(() => {
             const projectsSection = document.querySelector('#projects');
             if (projectsSection) {
@@ -356,22 +356,23 @@ function setupAgentPanel() {
           }, 500);
           break;
         case '/timeline':
-          addMessage('Timeline: Detailed chronological view available. Redirecting...');
+          addOutput('TIMELINE: Detailed chronological view available. Redirecting...');
           setTimeout(() => {
             window.location.href = 'timeline.html';
           }, 800);
           break;
-        case '/services':
-          addMessage('Agentic Services: Network Automation, AI Infrastructure Observability, Security & Threat Simulation, Reliability Engineering. See Agent section for details.');
+        case '/certs':
+        case '/certifications':
+          addOutput('CERTIFICATIONS: CCNP Enterprise + ENAUTO (in progress), NVIDIA AI Infrastructure (certified). Planned: PNPT, DevSecOps, CCT. Scrolling to certifications section...');
           setTimeout(() => {
-            const agentSection = document.querySelector('#agent');
-            if (agentSection) {
-              agentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const certsSection = document.querySelector('#certifications');
+            if (certsSection) {
+              certsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
           }, 500);
           break;
         case '/contact':
-          addMessage('Contact: GitHub, LinkedIn, Email links available in Contact section.');
+          addOutput('CONTACT: GitHub, LinkedIn, Email links available in Contact section. Scrolling...');
           setTimeout(() => {
             const contactSection = document.querySelector('#contact');
             if (contactSection) {
@@ -380,26 +381,26 @@ function setupAgentPanel() {
           }, 500);
           break;
         case '/help':
-          addMessage('Available commands: /about, /projects, /timeline, /services, /contact');
+          addOutput('AVAILABLE COMMANDS: /about, /projects, /timeline, /certs, /contact. Type any command to navigate and view details.');
           break;
         default:
-          addMessage('Agent core offline (API not connected). Available commands: /about, /projects, /timeline, /services, /contact');
+          addOutput(`UNKNOWN COMMAND: "${command}". Type /help for available commands.`);
       }
     }, 300);
     
-    agentInput.value = '';
+    commandInput.value = '';
   }
   
-  agentSend.addEventListener('click', () => {
-    const value = agentInput.value.trim();
+  commandSend.addEventListener('click', () => {
+    const value = commandInput.value.trim();
     if (value) {
       handleCommand(value);
     }
   });
   
-  agentInput.addEventListener('keypress', (e) => {
+  commandInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
-      const value = agentInput.value.trim();
+      const value = commandInput.value.trim();
       if (value) {
         handleCommand(value);
       }
@@ -410,15 +411,15 @@ function setupAgentPanel() {
     chip.addEventListener('click', () => {
       const command = chip.dataset.command;
       if (command) {
-        agentInput.value = command;
+        commandInput.value = command;
         handleCommand(command);
       }
     });
   });
   
-  // Initial greeting
+  // Initial system message
   setTimeout(() => {
-    addMessage('System online. Agent interface ready. Use quick commands or type /help for available operations.');
+    addOutput('Command palette online. Type /help for available commands.');
   }, 500);
 }
 
@@ -587,7 +588,7 @@ function setupVisibilityHandler() {
 // ============================================
 
 function init() {
-  console.log('🎮 AETHRON JARVIS Console - Initializing...');
+  console.log('🎮 Portfolio Interface - Initializing...');
   
   // Initialize canvas engine
   const canvasEl = document.getElementById('canvas-background');
@@ -620,8 +621,8 @@ function init() {
   setupNavigation();
   setupSectionReveal();
   
-  // Setup agent panel (index page only)
-  setupAgentPanel();
+  // Setup command palette (index page only)
+  setupCommandPalette();
   
   // Setup timeline features (timeline page only)
   setupTimelineFeatures();

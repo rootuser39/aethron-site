@@ -1,14 +1,14 @@
-# AETHRON - JARVIS Console Edition
+# Rishabh Durugkar - AI Infrastructure & Network Systems Engineer
 
-A premium black/grey portfolio site with JARVIS-style console interface. Features interactive canvas background, AI agent panel, and command console timeline. Zero dependencies, pure HTML/CSS/JavaScript.
+A premium black/grey personal portfolio site with interactive console interface. Features command palette, system status monitoring, and immersive canvas background. Zero dependencies, pure HTML/CSS/JavaScript.
 
 ## ✨ Features
 
-### JARVIS Console Experience
+### Interactive Console Experience
 - **Strict Black/Grey Palette**: `#050607` background, monochrome UI (no neon colors)
 - **HUD Elements**: Corner marks, system activity bar, subtle scanline overlay
 - **Console Aesthetics**: Corner brackets on panels, monospace fonts, terminal-style interfaces
-- **Radar Sweep Effect**: Animated subtle radar behind agent panel (disabled in reduced motion)
+- **Radar Sweep Effect**: Animated subtle radar behind command palette panel (disabled in reduced motion)
 
 ### Single Interactive Canvas Background
 The site features ONE universal interactive background with:
@@ -20,29 +20,27 @@ The site features ONE universal interactive background with:
 - **Performance**: Single `requestAnimationFrame` loop, capped primitives, optimized rendering
 - **Reduced Motion**: Renders one static frame when `prefers-reduced-motion: reduce` is detected
 
-### AI Agent Interface (New)
-Located between Projects and Contact sections on index.html:
+### Interface Section
+Located between Projects and Education sections on index.html:
 
-**JARVIS Chat Panel:**
+**Command Palette Panel:**
 - System greeting on page load
-- Message area with scrollable chat history
-- Quick command chips: `/about`, `/projects`, `/timeline`, `/services`, `/contact`
+- Command output area with scrollable history
+- Quick command chips: `/about`, `/projects`, `/timeline`, `/certs`, `/contact`
 - Input field with Enter-key support
 - Scripted local responses (no backend required)
 - Smooth scroll to relevant sections after command execution
-- API hook placeholder: `POST /api/agent` with JSON format documentation
 
-**Agentic Services Cards:**
-Four professional service offerings:
-1. **Network Automation Agents** - Intent-to-config, validation, drift detection
-2. **AI Infrastructure Observability** - GPU/network/workload correlation  
-3. **Security & Threat Simulation** - Traffic-aware detection, failure injection
-4. **Reliability Engineering** - Incident RCA acceleration, chaos testing
+**System Status Widgets:**
+Three capability monitors showing infrastructure domains:
+1. **Compute** - Observability, Throughput, Cost metrics
+2. **Fabric** - Latency, Routing, QoS metrics
+3. **Defense** - Detection, Segmentation, Response metrics
 
-Each card includes: What it does, Output format, Typical deliverable
+Each widget displays static status labels (not real-time monitoring).
 
-### Timeline Console Features (Enhanced)
-The timeline.html page now includes:
+### Timeline Console Features
+The timeline.html page includes:
 
 **Command Console Sidebar:**
 - Search filter input (live filtering of timeline entries)
@@ -96,14 +94,12 @@ python -m http.server 8000
 
 ## 🎨 Customization
 
-### Update Your Name
-Replace `[YOUR FULL NAME]` in `index.html` (hero section).
-
-### Update Links
-In both `index.html` and `timeline.html`:
+### Update Your Information
+Update personal information in `index.html`:
+- Name: Already set to "Rishabh Durugkar"
 - GitHub: `https://github.com/rootuser39`
-- LinkedIn: `https://linkedin.com/in/yourprofile`
-- Email: `your.email@example.com`
+- LinkedIn: Update in contact section
+- Email: Update in contact section
 - Resume: Add PDF and update download link
 
 ### Configure Canvas Background
@@ -121,7 +117,7 @@ class CanvasEngine {
 const mouseRadius = 150;  // Pixels
 ```
 
-### Customize Agent Commands
+### Customize Commands
 Edit command responses in `script.js`:
 
 ```javascript
@@ -130,7 +126,7 @@ function handleCommand(command) {
   
   switch(cmd) {
     case '/about':
-      addMessage('Your custom response here');
+      addOutput('Your custom response here');
       // Navigate to section
       break;
     // Add more custom commands
@@ -199,19 +195,12 @@ Single mode with optimized rendering:
 - **Mouse Tracking**: Smooth lerp interpolation for fluid parallax
 - **Static Mode**: Single frame rendered when reduced motion is preferred
 
-### Agent Panel (Frontend Only)
+### Command Palette (Frontend Only)
 - Local scripted responses for common commands
 - Smooth scroll navigation to page sections
-- Backend hook ready: `POST /api/agent` endpoint
-- Expected API format:
-  ```json
-  {
-    "message": "user input",
-    "context": "optional session data"
-  }
-  ```
-- Response handling for streaming or complete responses
-- Fallback message when API not connected
+- Command history in output area
+- Help command shows available operations
+- Fallback for unknown commands
 
 ### Timeline Console System
 **Search Filter:**
@@ -252,10 +241,10 @@ When `prefers-reduced-motion: reduce` is detected:
 
 ```
 aethron-site/
-├── index.html          # Main portfolio page + Agent section
+├── index.html          # Main portfolio page + Interface section
 ├── timeline.html       # Enhanced timeline with command console
-├── styles.css          # Complete JARVIS console theme + responsive
-├── script.js           # Canvas engine + agent + timeline features
+├── styles.css          # Complete console theme + responsive
+├── script.js           # Canvas engine + command palette + timeline features
 └── README.md           # This file
 ```
 
@@ -271,7 +260,7 @@ aethron-site/
 
 ### Visual Enhancements
 - **Corner Brackets**: Pseudo-elements on logo, cards, panels
-- **Radar Sweep**: CSS conic-gradient animation behind agent panel
+- **Radar Sweep**: CSS conic-gradient animation behind command palette
 - **Monospace Fonts**: Courier New for labels, codes, console text
 - **Panel Styling**: Glass morphism with backdrop-filter blur
 
@@ -311,78 +300,24 @@ Graceful degradation:
 
 No build step required — all files are static and ready to deploy.
 
-## 🔌 Backend Integration (Agent Panel)
+## 📝 Philosophy
 
-The agent panel is frontend-ready for backend integration.
-
-### API Endpoint: `POST /api/agent`
-
-**Request Format:**
-```json
-{
-  "message": "user query text",
-  "context": {
-    "sessionId": "optional-session-id",
-    "history": []
-  }
-}
-```
-
-**Response Format:**
-```json
-{
-  "response": "agent reply text",
-  "action": "optional action type (navigate, execute, etc.)",
-  "data": {}
-}
-```
-
-**Integration Steps:**
-1. Uncomment the backend API call in `script.js` (search for "Backend hook")
-2. Replace placeholder URL with your API endpoint
-3. Handle streaming responses if using streaming API
-4. Add error handling for network failures
-5. Implement session management if needed
-
-**Example Integration:**
-```javascript
-async function sendToBackend(message) {
-  try {
-    const response = await fetch('/api/agent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
-    });
-    const data = await response.json();
-    addMessage(data.response, false);
-    if (data.action === 'navigate') {
-      // Handle navigation
-    }
-  } catch (error) {
-    addMessage('Connection error. Agent offline.', false);
-  }
-}
-```
-
-## 📝 Credits & Philosophy
-
-This site is a **proof-of-work portfolio**. Every design choice serves a purpose:
+This site is a **personal portfolio** showcasing AI Infrastructure & Network Systems Engineering capabilities. Every design choice serves a purpose:
 - Black/grey theme = professional, not playful
-- JARVIS console = interactive metaphor for AI/infrastructure work
-- No frameworks = shows raw web fundamentals mastery
+- Console interface = technical proficiency metaphor
+- No frameworks = demonstrates web fundamentals mastery
 - Reduced motion support = accessibility-first approach
 - Performance caps = respects user's device
 - Single canvas background = clean, unified aesthetic
 
-The JARVIS Console theme represents precision, control, and system mastery — qualities that map directly to AI infrastructure engineering.
+The console theme represents precision, control, and system mastery — qualities that map directly to AI infrastructure engineering.
 
 ## 🔒 Security
 
 ✅ No external dependencies = no supply chain vulnerabilities  
 ✅ Static site = minimal attack surface  
 ✅ Client-side only = no backend to compromise  
-✅ CodeQL scanned = 0 vulnerabilities detected  
-✅ Input validation = prepared for backend integration  
+✅ Input validation = prepared for future enhancements  
 
 Perfect for a security-focused portfolio.
 
@@ -401,38 +336,8 @@ Perfect for a security-focused portfolio.
   - script.js: ~20KB
   - **Total**: ~105KB (uncompressed)
 
-## 🎯 Key Differences from Previous Version
-
-### Removed
-- ❌ Background mode selector (1/2/3 buttons)
-- ❌ Three different canvas modes (Compute/Fabric/Defense)
-- ❌ Mode-specific color changes
-- ❌ Status chips showing mode focuses
-
-### Added
-- ✅ Single unified canvas background
-- ✅ HUD corner marks + system activity bar
-- ✅ AI Agent chat interface with commands
-- ✅ Agentic Services section (4 cards)
-- ✅ Timeline command console sidebar
-- ✅ Search filter for timeline
-- ✅ System log feed
-- ✅ Focus mode toggle
-- ✅ Year jump navigation
-- ✅ Enhanced timeline card details
-- ✅ Keyboard accessibility
-- ✅ Corner brackets on panels
-- ✅ Radar sweep animation
-
-### Improved
-- ⚡ Performance optimization (single mode vs three)
-- ⚡ Cleaner navigation (removed confusing mode toggle)
-- ⚡ Better UX (command console, search, focus mode)
-- ⚡ More professional (JARVIS aesthetic throughout)
-- ⚡ Enhanced accessibility (keyboard, reduced motion)
-
 ---
 
 **Built with HTML, CSS, and JavaScript. No frameworks. No build tools. Just clean code and premium design.**
 
-© 2026. All rights reserved.
+© 2026 Rishabh Durugkar. All rights reserved.
