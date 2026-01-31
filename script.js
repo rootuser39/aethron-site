@@ -1,5 +1,5 @@
 /* ============================================
-   AETHRON - JARVIS Console Edition
+   Portfolio Console Interface
    Single canvas background + all interactive features
    ============================================ */
 
