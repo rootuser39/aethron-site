@@ -8,32 +8,55 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Glass Navigation Bar -->
+    <!-- Glass Navigation Bar with Mode Toggle -->
     <nav class="navbar">
         <div class="nav-content">
             <a href="#hero" class="nav-logo">AETHRON</a>
-            <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#certifications">Certifications</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="timeline.html">Timeline</a></li>
-            </ul>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="timeline.html">Timeline</a></li>
+                </ul>
+            </div>
+            <div class="mode-toggle">
+                <button class="mode-button active" data-mode="compute">1</button>
+                <button class="mode-button" data-mode="fabric">2</button>
+                <button class="mode-button" data-mode="defense">3</button>
+            </div>
         </div>
     </nav>
 
-    <!-- Hero Section with Particles and Grid -->
+    <!-- Hero Section -->
     <section class="hero" id="hero">
-        <div class="grid-overlay"></div>
         <div class="hero-content">
             <p class="hero-label">AETHRON</p>
             <h1>[YOUR FULL NAME]</h1>
             <p class="hero-title">AI Infrastructure & Network Systems Engineer</p>
             <p class="tagline">CCNP (Enterprise + Automation) · NVIDIA AI Infrastructure — Building resilient, observable, cost-efficient AI-ready networks</p>
+            
+            <!-- Status Chips (Mode-specific hints) -->
+            <div class="status-chips">
+                <div class="status-chip">
+                    <span class="status-chip-label">Compute</span>
+                    <span class="status-chip-value">Observability · Cost · Throughput</span>
+                </div>
+                <div class="status-chip">
+                    <span class="status-chip-label">Fabric</span>
+                    <span class="status-chip-value">Latency · Routing · QoS</span>
+                </div>
+                <div class="status-chip">
+                    <span class="status-chip-label">Defense</span>
+                    <span class="status-chip-value">Detection · Segmentation · Response</span>
+                </div>
+            </div>
+            
             <div class="hero-cta">
                 <a href="#projects" class="cta-button cta-primary">View Projects</a>
                 <a href="#contact" class="cta-button cta-secondary">Contact</a>
@@ -95,6 +118,7 @@
         <h2>Projects</h2>
         <div class="projects-grid">
             <article class="project-card">
+                <span class="project-badge">Fabric</span>
                 <h3>AI-Aware Network Traffic Optimization</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> AI training clusters need predictable network behavior; congestion causes cost spikes.</span>
@@ -106,6 +130,7 @@
             </article>
             
             <article class="project-card">
+                <span class="project-badge">Compute</span>
                 <h3>GPU & Infrastructure Observability Correlator</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> GPU throttling traced to network congestion, not hardware — no unified view.</span>
@@ -117,6 +142,7 @@
             </article>
             
             <article class="project-card">
+                <span class="project-badge">Fabric / Compute</span>
                 <h3>Edge Inference Under Constrained Networks</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> Edge devices run inference under unstable connectivity; failures go undetected.</span>
@@ -128,6 +154,7 @@
             </article>
             
             <article class="project-card">
+                <span class="project-badge">Defense</span>
                 <h3>Traffic-Aware Security Detection for AI Workloads</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> AI workloads generate unique traffic patterns; traditional security tools produce false positives.</span>
@@ -139,6 +166,7 @@
             </article>
             
             <article class="project-card">
+                <span class="project-badge">Defense</span>
                 <h3>Failure Injection Lab for Faster RCA</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> Production failures take hours to diagnose; no pre-prod chaos engineering.</span>
@@ -150,6 +178,7 @@
             </article>
             
             <article class="project-card">
+                <span class="project-badge">Compute</span>
                 <h3>Cost Driver Modeling for AI Infrastructure</h3>
                 <div class="project-meta">
                     <span class="project-problem"><strong>Problem:</strong> AI infrastructure costs grow opaquely; teams lack visibility into what drives spend.</span>
@@ -269,7 +298,7 @@
     </footer>
 
     <!-- Canvas for site-wide background -->
-    <canvas id="particle-canvas"></canvas>
+    <canvas id="canvas-background"></canvas>
 
     <!-- JavaScript -->
     <script src="script.js"></script>
