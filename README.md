@@ -1,168 +1,213 @@
-# AETHRON - Premium Stealth Sci-Fi Portfolio
+# AETHRON - Emperor Conquest Console
 
-A professional portfolio site showcasing expertise in AI infrastructure and network engineering. Built with a premium "stealth sci-fi" aesthetic featuring toned-down green/black color palette, site-wide interactive background, and elegant animations.
+A premium black/grey portfolio site showcasing AI infrastructure and network engineering expertise. Features an interactive tri-mode console background system with zero dependencies.
 
 ## ✨ Features
 
-### Visual Design
-- **Color Palette**: Toned-down green/black theme (#070A08 background, #34D399 primary, #10B981 secondary, #00FF7A rare highlight)
-- **Site-Wide Interactive Background**: Full-screen canvas with 50-80 particles responding to mouse movement
-- **Mouse Parallax**: Subtle background shift based on cursor position (throttled and optimized)
-- **Smooth Scrolling**: Buttery smooth scroll behavior with proper navbar offset
-- **Glassmorphism**: Glass-morphic cards with subtle green edge glow on hover
-- **Elegant Glows**: Reduced glow intensity (~60% less than typical neon) for sophisticated look
-- **Scanline & Noise Overlays**: Subtle sci-fi effects
+### Emperor Conquest Console Theme
+- **Strict Black/Grey Palette**: `#050607` background, monochrome UI (no green, no cyan, no neon)
+- **Premium Minimal Design**: Brutal clarity, glass panels, subtle borders
+- **Steel-Grey Accents**: `#D7DBE3` highlight used sparingly
+- **Very Subtle Shadows**: No big blur glows or flashy effects
 
-### Content Structure
-1. **Hero**: Name placeholder ([YOUR FULL NAME]), AETHRON label, professional title
-2. **About**: Personal narrative in I/Me voice, systems thinking approach
-3. **Experience**: Timeline view with Wipro (2021-2022) and Independent Consulting (2022-Present)
-4. **Projects**: 6 AI infrastructure projects with Problem/Solution/Outcome format
-5. **Education**: MSc IoT (Dublin 2022-2025) + BSc Network & Technology
-6. **Certifications**: CCNP, NVIDIA AI Infrastructure, Next: PNPT/DevSecOps/CCT with proof-of-work statement
-7. **Skills**: Grouped by capability (AI Infrastructure, Networking, Automation, Cloud)
-8. **Contact**: GitHub, LinkedIn, Email, Resume download placeholders
-9. **Timeline Page**: Detailed chronological view with collapsible year/month sections
+### Tri-Mode Console System
+The site features three interactive background modes controlled by the navbar toggle (1/2/3):
 
-### Interactive Features
-- **Active Navigation**: Highlights current section based on scroll position
-- **Section Reveal**: Smooth fade-in animations using IntersectionObserver
-- **Timeline Accordion**: Expand/collapse sections, compact/detailed view toggle
-- **Mobile Support**: Device orientation for subtle parallax on mobile devices
+**Mode 1: COMPUTE**
+- Faint block grid (like compute tiles)
+- Slow heat drift effect (procedural noise illusion)
+- Sparse dust particles drifting across screen
+- Focus: Observability · Cost · Throughput
 
-### Performance & Accessibility
-- **Optimized Animations**: requestAnimationFrame loop, throttled mouse input
-- **Low Particle Count**: 50-80 particles max for 60fps on normal laptops
-- **Reduced Motion Support**: Static canvas frame when prefers-reduced-motion is enabled
-- **Debounced Resize**: Efficient window resize handling
-- **Visibility API**: Pauses animations when tab is hidden
-- **Semantic HTML**: Clean, accessible markup
-- **Responsive Design**: Mobile-first approach
+**Mode 2: FABRIC**
+- Network node graph with low-opacity links
+- Packet pulses traveling along edges
+- Mouse proximity increases local activity (very subtle)
+- Focus: Latency · Routing · QoS
 
-## 🏗️ Structure
+**Mode 3: DEFENSE**
+- Soft radar rings (low opacity, subtle pulse)
+- Occasional "threat ping" dots that expand and fade
+- Mouse movement nudges ring center slightly (parallax)
+- Focus: Detection · Segmentation · Response
 
-```
-aethron-site/
-├── index.html      # Main portfolio page
-├── timeline.html   # Detailed chronological timeline
-├── styles.css      # Global theme + layout + effects
-├── script.js       # Canvas background + mouse parallax + animations
-└── README.md       # This file
-```
+**Important**: Modes DO NOT change the color theme — only background behavior.
 
-## 🚀 Usage
+### Interaction & Performance
+- **Mouse Parallax**: Smooth lerped tracking with throttling (~60fps)
+- **Mobile Support**: Device orientation for subtle parallax where available
+- **Performance Caps**: ~120 primitives max on screen, avoiding expensive composites
+- **Debounced Resize**: Efficient window handling
+- **Reduced Motion**: Full support — static frame rendered, animations disabled
 
-Simply open `index.html` in any modern web browser. No build process, no dependencies, no installation required.
+### Site Structure
+- **Hero**: Name placeholder, status chips showing all 3 mode focuses
+- **About**: First-person voice, recruiter-friendly
+- **Experience**: Wipro (2021-2022) + Independent NDA work (2022-present)
+- **Projects**: 6 cards with mode badges (Compute/Fabric/Defense)
+- **Education**: MSc IoT (Dublin) + BSc
+- **Certifications**: CCNP + ENAUTO (in progress), NVIDIA AI Infrastructure
+- **Skills**: Grouped by AI Infrastructure / Networking / Automation / Cloud
+- **Timeline Page**: Detailed chronological accordion with compact/detailed toggle
+
+## 🚀 Quick Start
+
+This is a pure static site — no build tools, no dependencies, no frameworks.
 
 ```bash
 # Option 1: Open directly
 open index.html
 
-# Option 2: Use a local server (recommended for testing)
+# Option 2: Local server (recommended)
 python -m http.server 8000
-# Then visit http://localhost:8000
+# Visit http://localhost:8000
 
 # Option 3: Deploy to GitHub Pages
-# Just push to your repository with GitHub Pages enabled
+# Enable Pages in repo settings → select branch
+# Your site will be live at https://username.github.io/repo-name/
 ```
 
 ## 🎨 Customization
 
-### Replace Placeholder Name
-Find and replace `[YOUR FULL NAME]` in `index.html` with your actual name.
+### Update Your Name
+Replace `[YOUR FULL NAME]` in `index.html` (line 34).
 
 ### Update Links
-Edit these placeholders in both `index.html` and `timeline.html`:
-- GitHub: `https://github.com/rootuser39` → your GitHub profile
-- LinkedIn: `https://linkedin.com/in/yourprofile` → your LinkedIn profile  
-- Email: `your.email@example.com` → your email address
-- Resume: Add your resume PDF and update the download link
+In both `index.html` and `timeline.html`:
+- GitHub: `https://github.com/rootuser39`
+- LinkedIn: `https://linkedin.com/in/yourprofile`
+- Email: `your.email@example.com`
+- Resume: Add PDF and update download link
 
 ### Customize Projects
-Update the 6 project cards in `index.html` with your actual projects:
-1. AI-Aware Network Traffic Optimization
-2. GPU & Infrastructure Observability Correlator
-3. Edge Inference Under Constrained Networks
-4. Traffic-Aware Security Detection for AI Workloads
-5. Failure Injection Lab for Faster RCA
-6. Cost Driver Modeling for AI Infrastructure
+Edit the 6 project cards in `index.html`:
+1. AI-Aware Network Traffic Optimization (Fabric)
+2. GPU & Infrastructure Observability Correlator (Compute)
+3. Edge Inference Under Constrained Networks (Fabric/Compute)
+4. Traffic-Aware Security Detection for AI Workloads (Defense)
+5. Failure Injection Lab for Faster RCA (Defense)
+6. Cost Driver Modeling for AI Infrastructure (Compute)
+
+Each project should include: mode badge, problem, solution, outcome, tech stack, links.
 
 ### Update Timeline
 Edit `timeline.html` to add your actual:
-- Work experience details
-- Project milestones
+- Work experience milestones
+- Project deliverables
 - Education modules
 - Certification progress
-- Evidence links (GitHub repos, demos, write-ups)
+- Evidence links (repos, demos, write-ups)
 
-### Adjust Colors
+### Adjust Color Palette
 Edit CSS custom properties in `styles.css`:
 ```css
 :root {
-  --bg-primary: #070A08;
-  --accent-primary: #34D399;
-  --accent-secondary: #10B981;
-  --accent-highlight: #00FF7A;
-  /* ... */
+  --bg-primary: #050607;
+  --surface: rgba(12, 13, 15, 0.72);
+  --surface-2: rgba(18, 20, 23, 0.62);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text-primary: #E7E9EE;
+  --text-muted: #A8AFBC;
+  --highlight: #D7DBE3;
 }
 ```
 
-### Configure Canvas Background
-Edit particle config in `script.js`:
+**Important**: Keep the black/grey Emperor theme; avoid bright colors.
+
+### Configure Canvas Modes
+Edit mode behaviors in `script.js`:
+
+**Compute Mode**:
 ```javascript
-const particleConfig = {
-  count: 60,              // Number of particles (50-80 recommended)
-  maxSpeed: 0.3,          // Particle drift speed
-  connectionDistance: 120, // Distance for particle connections
-  particleSize: 1.5,      // Particle radius
-  parallaxStrength: 0.015 // Mouse parallax intensity (0 = disabled)
-};
+this.gridSize = 80;          // Block grid size
+this.heatTime = 0;           // Heat drift speed
+// Particle count set at 30
 ```
 
-To disable the canvas background entirely:
+**Fabric Mode**:
 ```javascript
-const particleConfig = {
-  count: 0  // Set to 0 to disable
-};
+const nodeCount = 25;        // Network nodes
+const maxDistance = 200;     // Connection distance
+// Packet spawn rate: 0.02 per frame
 ```
 
-## 💻 Technologies
+**Defense Mode**:
+```javascript
+this.rings = [];             // 4 radar rings
+// Threat ping spawn rate: 0.015 per frame
+```
 
-- **HTML5**: Semantic markup, accessibility features
-- **CSS3**: 
-  - CSS Custom Properties for theming
-  - Flexbox and Grid layouts
-  - Glassmorphism (backdrop-filter)
-  - Advanced animations and transitions
-  - Media queries for responsive design
-  - Scroll behavior and scroll-margin-top
-- **Vanilla JavaScript**:
-  - Canvas API for particle system
-  - Mouse tracking with throttling and lerping
-  - IntersectionObserver API for scroll animations
-  - Device Orientation API for mobile parallax
-  - Visibility API for performance optimization
-  - requestAnimationFrame for smooth 60fps
+To disable canvas entirely:
+```javascript
+// In script.js, comment out the init() call or set:
+const prefersReducedMotion = true;
+```
 
-## 📊 Performance Notes
+## 💻 How It Works
 
-- Canvas animation is capped at 60fps
-- Mouse input is throttled to ~60fps
-- Window resize is debounced (150ms)
-- Animations pause when tab is hidden
-- Reduced particle count keeps GPU usage low
-- No external dependencies = fast load time
+### Tri-Mode System
+- Mode toggle in navbar (buttons labeled 1/2/3)
+- Each mode has a dedicated renderer class
+- Single `requestAnimationFrame` loop handles all rendering
+- Mode switching is instant (no page reload)
 
-## ♿ Accessibility
+### Canvas Engine
+- **ComputeMode**: Block grid + value noise for heat + dust particles
+- **FabricMode**: Dynamic node graph + packet pulses + mouse proximity
+- **DefenseMode**: Pulsing radar rings + expanding threat pings + parallax
 
-- Respects `prefers-reduced-motion` system setting
-- Canvas renders static frame when motion is reduced
-- All animations disabled with reduced motion
-- Semantic HTML structure
+### Reduced Motion Support
+When `prefers-reduced-motion: reduce` is detected:
+- Canvas renders ONE static frame (no animation loop)
+- All CSS animations disabled
+- Scroll reveals disabled (sections visible immediately)
+- Mouse parallax disabled
+
+### Performance
+- Mouse input throttled to ~60fps
+- Resize debounced (150ms)
+- Primitive count capped (~30-120 depending on mode)
+- Animation pauses when tab hidden (Visibility API)
+- No external images or libraries
+
+### Accessibility
+- Keyboard navigable
 - Proper heading hierarchy
-- Keyboard navigation support
-- High contrast color scheme
-- scroll-margin-top for proper anchor navigation
+- High contrast text
+- `scroll-margin-top` for anchor links
+- Respects system motion preferences
+- Semantic HTML structure
+
+## 📂 File Structure
+
+```
+aethron-site/
+├── index.html          # Main portfolio page
+├── timeline.html       # Detailed timeline/accordion
+├── styles.css          # Complete Emperor theme + responsive
+├── script.js           # Tri-mode canvas engine + interactions
+└── README.md           # This file
+```
+
+**That's it.** No `node_modules`, no build step, no config files.
+
+## 🎮 Mode Descriptions
+
+### Mode 1: Compute
+Represents GPU/compute infrastructure. Visual metaphor: heat maps showing utilization patterns across a cluster.
+
+**Use case**: When talking about observability, cost optimization, throughput analysis.
+
+### Mode 2: Fabric
+Represents network topology and data flow. Visual metaphor: packets flowing through interconnected nodes.
+
+**Use case**: When discussing network architecture, latency optimization, routing, QoS.
+
+### Mode 3: Defense
+Represents security monitoring and threat detection. Visual metaphor: radar surveillance with anomaly alerts.
+
+**Use case**: When highlighting security work, threat detection, segmentation, incident response.
 
 ## 🌐 Browser Support
 
@@ -172,54 +217,45 @@ Works on all modern browsers:
 - Safari (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
-Requires support for:
-- CSS backdrop-filter
-- IntersectionObserver API
+Requires:
+- CSS `backdrop-filter` (glassmorphism)
 - Canvas API
-- CSS Grid and Flexbox
+- IntersectionObserver API
+- CSS Grid & Flexbox
 - CSS Custom Properties
 
 ## 🚢 GitHub Pages Deployment
 
-1. Push this repository to GitHub
-2. Go to Settings → Pages
-3. Select source branch (usually `main` or `gh-pages`)
-4. Your site will be live at `https://yourusername.github.io/repository-name/`
+1. Push repository to GitHub
+2. Go to **Settings → Pages**
+3. Select source branch (usually `main`)
+4. Site will be live at `https://username.github.io/repo-name/`
 
-No build step needed! All files are static and deploy-ready.
+No build step required — all files are static and ready to deploy.
 
-## 📝 What's Inside
+## 📝 Credits & Philosophy
 
-### Color Palette (Toned Down Green/Black)
-- Background: `#070A08` (near-black with slight green tint)
-- Panels/glass: `rgba(12, 18, 14, 0.55)`
-- Primary accent: `#34D399` (muted green)
-- Secondary accent: `#10B981` (deeper green)
-- Rare highlight: `#00FF7A` (only on hover/focus)
-- Text: `#E6FFF3` (light mint)
-- Muted text: `#9FB9AD` (gray-green)
+This site is a **proof-of-work portfolio**. Every design choice serves a purpose:
+- Black/grey theme = professional, not playful
+- Tri-mode console = interactive metaphor for infrastructure domains
+- No frameworks = shows raw web fundamentals mastery
+- Reduced motion support = accessibility-first approach
+- Performance caps = respects user's device
 
-### Signature Effects (Subtle, Not Cringe)
-- Hero background: animated gradient + faint diagonal grid
-- Scanline overlay (very subtle)
-- CSS-generated noise effect
-- Cards: glassmorphism with green edge glow on hover
-- Buttons: "terminal button" style (border + subtle glow)
-- Section reveal: simple translate/opacity on scroll
+The Emperor Conquest Console theme represents precision, control, and brutal efficiency — qualities that map to infrastructure engineering.
 
-### Interactive Background
-- Fixed full-screen canvas behind all content
-- 50-80 particles with faint connections
-- Gentle parallax based on mouse position
-- Mouse response throttled for performance
-- Resize handler with debouncing
-- Device orientation support on mobile
-- Static frame for reduced-motion users
+## 🔒 Security
 
-## 📄 License
+No external dependencies = no supply chain vulnerabilities.
 
-© 2026. All rights reserved.
+Static site = minimal attack surface.
+
+All interactions happen client-side = no backend to compromise.
+
+Perfect for a security-focused portfolio.
 
 ---
 
-Built with vanilla HTML/CSS/JS. No frameworks, no build tools, just clean code and premium design.
+**Built with HTML, CSS, and JavaScript. No frameworks. No build tools. Just clean code and premium design.**
+
+© 2026. All rights reserved.
