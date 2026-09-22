@@ -98,7 +98,6 @@ python -m http.server 8000
 Update personal information in `index.html`:
 - Name: Already set to "Rishabh Durugkar"
 - GitHub: `https://github.com/rootuser39`
-- LinkedIn: Update in contact section
 - Email: Update in contact section
 - Resume: Add PDF and update download link
 
