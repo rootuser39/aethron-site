@@ -372,7 +372,7 @@ function setupCommandPalette() {
           }, 500);
           break;
         case '/contact':
-          addOutput('CONTACT: GitHub, LinkedIn, Email links available in Contact section. Scrolling...');
+          addOutput('CONTACT: GitHub and Email links available in Contact section. Scrolling...');
           setTimeout(() => {
             const contactSection = document.querySelector('#contact');
             if (contactSection) {
